@@ -21,6 +21,9 @@ img{max-width:100%}
   --bg:#F5F2F2; --card:#FFFFFF; --line:#E8E0E1; --line-2:#F1ECEC; --row-alt:#FBF9F9; --row-hover:#FFF5F6;
   --ok:#1E7B4A; --ok-tint:#E6F4EC; --warn:#9A6200; --warn-tint:#FFF4DC;
   --mark:#FFE08A; --mark-ink:#1D1718;
+  --combo:#C46A00; --combo-row:#FFF4E3; --combo-row-2:#FFEFD6;
+  --bk0b:#E4EDFB; --bk0f:#1F4E9C; --bk1b:#DFF3EF; --bk1f:#0E6A5C; --bk2b:#EEE7FB; --bk2f:#5A3AA5;
+  --bk3b:#FCEFD9; --bk3f:#865600; --bk4b:#E9EDF2; --bk4f:#394759; --bk5b:#E3F3E6; --bk5f:#236A34;
   --shadow:0 1px 2px rgba(60,20,24,.06),0 4px 16px rgba(60,20,24,.06);
   --font:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -33,6 +36,9 @@ img{max-width:100%}
     --bg:#141112; --card:#1F1A1B; --line:#3A3133; --line-2:#2B2425; --row-alt:#231D1E; --row-hover:#2E2224;
     --ok:#5CC98E; --ok-tint:#17301F; --warn:#F2B64C; --warn-tint:#33280F;
     --mark:#7A5B00; --mark-ink:#FFF3CC;
+    --combo:#F0A542; --combo-row:#33260F; --combo-row-2:#3B2C12;
+    --bk0b:#1C2B45; --bk0f:#9DBDF5; --bk1b:#123530; --bk1f:#7FD6C6; --bk2b:#2A2142; --bk2f:#C3AEF5;
+    --bk3b:#3A2A0E; --bk3f:#F2C36B; --bk4b:#262D37; --bk4f:#BCC7D6; --bk5b:#16301D; --bk5f:#8ED6A0;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
   }
 }
@@ -43,6 +49,9 @@ img{max-width:100%}
   --bg:#141112; --card:#1F1A1B; --line:#3A3133; --line-2:#2B2425; --row-alt:#231D1E; --row-hover:#2E2224;
   --ok:#5CC98E; --ok-tint:#17301F; --warn:#F2B64C; --warn-tint:#33280F;
   --mark:#7A5B00; --mark-ink:#FFF3CC;
+  --combo:#F0A542; --combo-row:#33260F; --combo-row-2:#3B2C12;
+  --bk0b:#1C2B45; --bk0f:#9DBDF5; --bk1b:#123530; --bk1f:#7FD6C6; --bk2b:#2A2142; --bk2f:#C3AEF5;
+  --bk3b:#3A2A0E; --bk3f:#F2C36B; --bk4b:#262D37; --bk4f:#BCC7D6; --bk5b:#16301D; --bk5f:#8ED6A0;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
 }
 *{box-sizing:border-box}
@@ -132,7 +141,7 @@ button,input,select{font:inherit;color:inherit}
 .empty strong{display:block;font-size:16px;margin-bottom:4px}
 .empty span{color:var(--muted);font-size:13px}
 .table-wrap{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:min(68vh,720px);background:var(--card)}
-table{width:100%;min-width:940px;border-collapse:separate;border-spacing:0;table-layout:fixed}
+table{width:100%;min-width:1320px;border-collapse:separate;border-spacing:0;table-layout:fixed}
 thead th{position:sticky;top:0;z-index:2;background:var(--ink);color:var(--card);font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;text-align:center;padding:12px 10px;border-right:1px solid rgba(255,255,255,.14)}
 thead th:last-child{border-right:0}
 tbody td{padding:10px 12px;border-bottom:1px solid var(--line-2);border-right:1px solid var(--line-2);vertical-align:middle;text-align:center;font-size:13.5px;overflow-wrap:anywhere}
@@ -146,7 +155,20 @@ td.cat{color:var(--ink-2)}
 .pill{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;background:var(--red-tint);color:var(--red);border:1px solid var(--red-line);text-transform:uppercase;max-width:100%;overflow-wrap:anywhere}
 .blank{color:var(--muted)}
 mark{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:0 1px}
-col.c-desc{width:36%} col.c-cat{width:16%} col.c-awb{width:17%} col.c-dc{width:13%} col.c-age{width:8%} col.c-type{width:10%}
+col.c-desc{width:24%} col.c-cat{width:11%} col.c-awb{width:12%} col.c-dc{width:10%} col.c-age{width:6%} col.c-type{width:7%} col.c-pend{width:10%} col.c-bkt{width:11%} col.c-rem{width:9%}
+tbody tr.combo td{background:var(--combo-row)}
+tbody tr.combo:nth-child(even) td{background:var(--combo-row-2)}
+tbody tr.combo td:first-child{box-shadow:inset 4px 0 0 var(--combo)}
+.pend{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;border:1.5px solid var(--ink-2);color:var(--ink);max-width:100%;overflow-wrap:anywhere}
+.bk{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;max-width:100%;overflow-wrap:anywhere;line-height:1.3}
+.bk0{background:var(--bk0b);color:var(--bk0f)} .bk1{background:var(--bk1b);color:var(--bk1f)} .bk2{background:var(--bk2b);color:var(--bk2f)}
+.bk3{background:var(--bk3b);color:var(--bk3f)} .bk4{background:var(--bk4b);color:var(--bk4f)} .bk5{background:var(--bk5b);color:var(--bk5f)}
+.rem{display:flex;flex-direction:column;align-items:center;gap:3px}
+.combo-pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:999px;background:var(--combo);color:#fff}
+.single{font-size:12px;font-weight:600;color:var(--ink-2)}
+.src{font-size:11px;color:var(--muted);line-height:1.3}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:12px;color:var(--ink-2);margin-bottom:10px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--combo-row);box-shadow:inset 3px 0 0 var(--combo);vertical-align:-3px;margin-right:6px}
 .pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:12px}
 .pager-info{color:var(--ink-2);font-size:13px;font-variant-numeric:tabular-nums}
 .pager-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
@@ -195,7 +217,7 @@ col.c-desc{width:36%} col.c-cat{width:16%} col.c-awb{width:17%} col.c-dc{width:1
       </div>
       <div class="drop-text">
         <strong>Drop the Exception Salvaging Base file here</strong>
-        <span>Needs columns: Product Description, Product Category, Awb_number, DC liability, Central ageing, PENDENCY TYPE</span>
+        <span>Sheet EXCEPTION BASE: awb_number, Product Description, Product Category, CENTAL PENDENCY, CENTRAL BUCKET, FILE TYPE, CENTRAL AGEING, DC Liability. Sheet COMBO BASE: awb_number, Product Description, product_categories, DC Liability</span>
       </div>
       <button class="btn btn-primary" id="uploadBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/></svg>
@@ -252,12 +274,14 @@ col.c-desc{width:36%} col.c-cat{width:16%} col.c-awb{width:17%} col.c-dc{width:1
       <span id="noResHint">Try fewer or shorter keywords, or switch Match to “Any keyword”.</span>
     </div>
     <div id="tableArea">
+      <div class="legend"><span><i></i>Combo shipment: one AWB mapped to multiple product descriptions</span></div>
       <div class="table-wrap" id="tableWrap">
         <table>
-          <colgroup><col class="c-desc"><col class="c-cat"><col class="c-awb"><col class="c-dc"><col class="c-age"><col class="c-type"></colgroup>
+          <colgroup><col class="c-desc"><col class="c-cat"><col class="c-awb"><col class="c-dc"><col class="c-age"><col class="c-type"><col class="c-pend"><col class="c-bkt"><col class="c-rem"></colgroup>
           <thead><tr>
             <th scope="col">Product Description</th><th scope="col">Product Category</th><th scope="col">AWB Number</th>
             <th scope="col">DC Liability</th><th scope="col">Ageing</th><th scope="col">File Type</th>
+            <th scope="col">Central Pendency</th><th scope="col">Central Bucket</th><th scope="col">Combo Remarks</th>
           </tr></thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -284,8 +308,14 @@ col.c-desc{width:36%} col.c-cat{width:16%} col.c-awb{width:17%} col.c-dc{width:1
 /* ===================== ENGINE (runs in a Web Worker; falls back to the page) ===================== */
 function engineMain(ctx){
   'use strict';
-  var REQUIRED=['Product Description','Product Category','Awb_number','DC liability','Central ageing','PENDENCY TYPE'];
-  var DEDUPE=[false,true,false,true,true,true];
+  /* Slots: 0 desc, 1 category, 2 awb, 3 DC, 4 ageing, 5 file type, 6 central pendency, 7 central bucket.
+     Each slot lists the accepted header names (first = name shown in errors). */
+  var NS=8;
+  var EX_SPEC=[['Product Description'],['Product Category'],['awb_number','Awb_number'],['DC Liability','DC liability'],['CENTRAL AGEING','Central ageing'],['FILE TYPE','PENDENCY TYPE'],['CENTAL PENDENCY','CENTRAL PENDENCY'],['CENTRAL BUCKET']];
+  var EX_REQ=[1,1,1,1,1,1,1,1];
+  var CB_SPEC=[['Product Description'],['product_categories','Product Category','product_category'],['awb_number','Awb_number'],['DC Liability','DC liability'],null,null,null,null];
+  var CB_REQ=[1,0,1,1,0,0,0,0];
+  var DEDUPE=[false,true,true,true,true,true,true,true];
   var MAX_BYTES=350*1024*1024;
   function Fail(code,msg,extra){this.code=code;this.userMsg=msg||null;this.extra=extra||null;}
   var DB=null, lastRows=null, lastProg=0;
@@ -319,8 +349,9 @@ function engineMain(ctx){
 
   /* ---------- store ---------- */
   function makeStore(){
-    return {rows:new Int32Array(6*65536),n:0,extras:[''],maps:[new Map(),new Map(),new Map(),new Map(),new Map(),new Map()],
-            sst:null,needed:new Uint8Array(1<<16),sheetsUsed:[],idx:null};
+    var maps=[];for(var i=0;i<NS;i++)maps.push(new Map());
+    return {rows:new Int32Array(NS*65536),src:new Uint8Array(65536),n:0,extras:[''],maps:maps,
+            sst:null,needed:new Uint8Array(1<<16),sheetsUsed:[],idx:null,comboSheet:false};
   }
   function addExtra(S,slot,text){
     if(text==='')return 0;
@@ -331,9 +362,10 @@ function engineMain(ctx){
     if(k>=S.needed.length){var L=S.needed.length;while(L<=k)L*=2;var b=new Uint8Array(L);b.set(S.needed);S.needed=b;}
     S.needed[k]=1;
   }
-  function pushRow(S,codes){
-    if((S.n+1)*6>S.rows.length){var b=new Int32Array(S.rows.length*2);b.set(S.rows);S.rows=b;}
-    var o=S.n*6;for(var i=0;i<6;i++)S.rows[o+i]=codes[i];S.n++;
+  function pushRow(S,codes,src){
+    if((S.n+1)*NS>S.rows.length){var b=new Int32Array(S.rows.length*2);b.set(S.rows);S.rows=b;}
+    if(S.n+1>S.src.length){var c=new Uint8Array(S.src.length*2);c.set(S.src);S.src=c;}
+    var o=S.n*NS;for(var i=0;i<NS;i++)S.rows[o+i]=codes[i];S.src[S.n]=src;S.n++;
   }
   function val(S,code){
     if(code>=0)return S.extras[code];
@@ -463,12 +495,25 @@ function engineMain(ctx){
 
   /* ---------- header matching ---------- */
   function hkey(s){return s.replace(/\s+/g,' ').trim().toLowerCase();}
-  function mapHeaders(cells){
+  function mapHeaders(cells,spec,req){
     var exact=new Map(),loose=new Map();
     cells.forEach(function(c){var t=(c.text||'').trim();if(!t)return;if(!exact.has(t))exact.set(t,c.col);var k=hkey(t);if(!loose.has(k))loose.set(k,c.col);});
     var cols=[],missing=[];
-    REQUIRED.forEach(function(h){var c=exact.get(h);if(c===undefined)c=loose.get(hkey(h));if(c===undefined)missing.push(h);cols.push(c===undefined?-1:c);});
+    for(var i=0;i<NS;i++){
+      var names=spec[i],c;
+      if(!names){cols.push(-1);continue;}
+      for(var j=0;j<names.length&&c===undefined;j++)c=exact.get(names[j]);
+      for(j=0;j<names.length&&c===undefined;j++)c=loose.get(hkey(names[j]));
+      if(c===undefined&&req[i])missing.push(names[0]);
+      cols.push(c===undefined?-1:c);c=undefined;
+    }
     return {cols:cols,missing:missing};
+  }
+  function slotMap(cols){
+    var slotOf=[],maxCol=-1;
+    cols.forEach(function(c,slot){if(c<0)return;slotOf[c]=slot;if(c>maxCol)maxCol=c;});
+    for(var q=0;q<=maxCol;q++)if(slotOf[q]===undefined)slotOf[q]=-1;
+    return {slotOf:slotOf,maxCol:maxCol};
   }
 
   /* ---------- XLSX ---------- */
@@ -555,36 +600,41 @@ function engineMain(ctx){
         i0++;return i0<=maxIdx;
       });
     }
-    /* 3) Pick sheets that carry every required column */
-    var usable=[],best=null;
-    sheets.forEach(function(sh){
+    /* 3) Classify sheets: EXCEPTION BASE (all exception columns) and COMBO BASE (combo columns) */
+    function bestHeader(sh,spec,req){
       var pick=null;
       sh.peek.forEach(function(r){
         var cells=r.cells.map(function(c){return {col:c.col,text:c.s!==undefined?(hdrStr.get(c.s)||''):c.text};});
-        var hm=mapHeaders(cells);
+        var hm=mapHeaders(cells,spec,req);
         if(!pick||hm.missing.length<pick.hm.missing.length)pick={ord:r.ord,hm:hm};
       });
-      if(!pick)return;
-      if(!best||pick.hm.missing.length<best.missing.length)best={missing:pick.hm.missing,sheet:sh.name};
-      if(pick.hm.missing.length===0){
-        var slotOf=[],maxCol=-1;
-        pick.hm.cols.forEach(function(c,slot){slotOf[c]=slot;if(c>maxCol)maxCol=c;});
-        for(var q=0;q<=maxCol;q++)if(slotOf[q]===undefined)slotOf[q]=-1;
-        sh.slotOf=slotOf;sh.maxCol=maxCol;sh.headerOrd=pick.ord;sh.peek=null;usable.push(sh);
+      return pick;
+    }
+    var exSheets=[],cbSheets=[],best=null;
+    sheets.forEach(function(sh){
+      var isComboName=/combo/i.test(sh.name);
+      var ex=bestHeader(sh,EX_SPEC,EX_REQ),cb=bestHeader(sh,CB_SPEC,CB_REQ);
+      if(ex&&!isComboName&&(!best||ex.hm.missing.length<best.missing.length))best={missing:ex.hm.missing,sheet:sh.name};
+      if(ex&&ex.hm.missing.length===0&&!isComboName){
+        var m1=slotMap(ex.hm.cols);sh.slotOf=m1.slotOf;sh.maxCol=m1.maxCol;sh.headerOrd=ex.ord;sh.role=0;exSheets.push(sh);
+      }else if(cb&&cb.hm.missing.length===0){
+        var m2=slotMap(cb.hm.cols);sh.slotOf=m2.slotOf;sh.maxCol=m2.maxCol;sh.headerOrd=cb.ord;sh.role=1;cbSheets.push(sh);
       }
+      sh.peek=null;
     });
-    if(!usable.length){
+    if(!exSheets.length){
       if(!best)throw new Fail('EMPTY');
       throw new Fail('MISSING',null,{missing:best.missing,sheet:sheets.length>1?best.sheet:null});
     }
+    var usable=exSheets.concat(cbSheets);
 
-    /* 4) Stream each usable sheet; keep only the 6 required columns */
-    var S=makeStore();
+    /* 4) Stream each sheet; keep only the required columns */
+    var S=makeStore();S.comboSheet=cbSheets.length>0;
     var grand=0;usable.forEach(function(sh){grand+=sh.ent.usize||1;});
     var sstW=sstEnt?(sstEnt.usize||1):0;grand+=sstW;
-    var baseDone=0,codes=new Int32Array(6);
+    var baseDone=0,codes=new Int32Array(NS);
     for(var ui=0;ui<usable.length;ui++){
-      var shx=usable[ui],slotOfX=shx.slotOf,maxColX=shx.maxCol,hdrOrd=shx.headerOrd,ordX=0,before=S.n;
+      var shx=usable[ui],slotOfX=shx.slotOf,maxColX=shx.maxCol,hdrOrd=shx.headerOrd,ordX=0,before=S.n,roleX=shx.role;
       await streamElements(file,shx.ent,'row',function(inner){
         ordX++;
         if(ordX<=hdrOrd||inner===undefined)return;
@@ -603,10 +653,10 @@ function engineMain(ctx){
           }
           if(code!==0){codes[slot]=code;any=true;}
         }
-        if(any)pushRow(S,codes);
+        if(any)pushRow(S,codes,roleX);
       },function(d,tot){progress('rows',(baseDone+d)/grand,{records:S.n,sheet:usable.length>1?shx.name:null});});
       baseDone+=shx.ent.usize||1;
-      S.sheetsUsed.push({name:shx.name,records:S.n-before});
+      S.sheetsUsed.push({name:shx.name,records:S.n-before,role:roleX});
     }
     if(S.n===0)throw new Fail('EMPTY');
 
@@ -665,7 +715,7 @@ function engineMain(ctx){
   }
   async function loadCsv(file){
     var S=makeStore(),CH=4*1024*1024,td=new TextDecoder('utf-8'),pos=0,buf='',first=true,D=44;
-    var header=false,slotOf=null,maxCol=-1,codes=new Int32Array(6);
+    var header=false,slotOf=null,maxCol=-1,codes=new Int32Array(NS);
     var P={want:function(){return true;}};
     function onRow(row){
       if(!header){
@@ -673,15 +723,15 @@ function engineMain(ctx){
         for(var i=0;i<row.length;i++){var t=row[i]||'';if(t.trim())nonEmpty=true;cells.push({col:i,text:t});}
         if(!nonEmpty)return;
         header=true;
-        var hm=mapHeaders(cells);
+        var hm=mapHeaders(cells,EX_SPEC,EX_REQ);
         if(hm.missing.length)throw new Fail('MISSING',null,{missing:hm.missing});
-        slotOf=[];hm.cols.forEach(function(c,slot){slotOf[c]=slot;if(c>maxCol)maxCol=c;});
-        P.want=function(c){return c<=maxCol&&slotOf[c]!==undefined;};
+        var sm=slotMap(hm.cols);slotOf=sm.slotOf;maxCol=sm.maxCol;
+        P.want=function(c){return c<=maxCol&&slotOf[c]>=0;};
         return;
       }
       codes.fill(0);var any=false,lim=Math.min(maxCol+1,row.length);
-      for(var c=0;c<lim;c++){var s=slotOf[c];if(s===undefined)continue;var v=row[c];if(v){codes[s]=addExtra(S,s,v);any=true;}}
-      if(any)pushRow(S,codes);
+      for(var c=0;c<lim;c++){var s=slotOf[c];if(s<0)continue;var v=row[c];if(v){codes[s]=addExtra(S,s,v);any=true;}}
+      if(any)pushRow(S,codes,0);
     }
     progress('rows',0,{records:0},true);
     while(pos<file.size){
@@ -707,7 +757,7 @@ function engineMain(ctx){
     var sstEnt=new Int32Array(sstLen),exEnt=new Int32Array(S.extras.length),rowEntry=new Int32Array(n);
     var entryCode=new Int32Array(Math.max(1024,Math.min(n,1<<20))),E=0;
     for(var r=0;r<n;r++){
-      var code=rows[r*6],e,isNew=false;
+      var code=rows[r*NS],e,isNew=false;
       if(code<0&&(-code-1)>=sstLen)code=0;
       if(code<0){var k=-code-1;e=sstEnt[k]-1;if(e<0){e=E++;sstEnt[k]=e+1;isNew=true;}}
       else{e=exEnt[code]-1;if(e<0){e=E++;exEnt[code]=e+1;isNew=true;}}
@@ -718,6 +768,32 @@ function engineMain(ctx){
       rowEntry[r]=e;
     }
     sstEnt=null;exEnt=null;
+
+    /* Combo analysis per AWB: compact AWB ids, then counts per source */
+    var K=sstLen+S.extras.length,awbMap=new Int32Array(K),rowAwb=new Int32Array(n),A=0,src=S.src;
+    for(r=0;r<n;r++){
+      var ac=rows[r*NS+2];
+      if(ac<0&&(-ac-1)>=sstLen)ac=0;
+      if(ac===0){rowAwb[r]=-1;continue;}
+      var key=ac<0?(-ac-1):sstLen+ac,id=awbMap[key]-1;
+      if(id<0){id=A++;awbMap[key]=id+1;}
+      rowAwb[r]=id;
+    }
+    awbMap=null;
+    var exCnt=new Int32Array(A),cbCnt=new Int32Array(A),exRow=new Int32Array(A),exFirst=new Int32Array(A),exMulti=new Uint8Array(A);
+    for(r=0;r<n;r++){
+      var a=rowAwb[r];if(a<0)continue;
+      if(src[r]===0){
+        exCnt[a]++;if(!exRow[a])exRow[a]=r+1;
+        var en=rowEntry[r]+1;if(!exFirst[a])exFirst[a]=en;else if(exFirst[a]!==en)exMulti[a]=1;
+      }else cbCnt[a]++;
+    }
+    exFirst=null;
+    var isCombo=new Uint8Array(A);
+    for(var ai=0;ai<A;ai++)if(cbCnt[ai]>0||exMulti[ai])isCombo[ai]=1;
+    exMulti=null;
+    S.combo={rowAwb:rowAwb,exCnt:exCnt,cbCnt:cbCnt,exRow:exRow,isCombo:isCombo};
+
     var offsets=new Int32Array(E+1),segs=[],parts=[],len=0,e0=0,SEG=1<<24;
     for(var x=0;x<E;x++){
       var t=val(S,entryCode[x]).toLowerCase();
@@ -747,7 +823,10 @@ function engineMain(ctx){
     progress('index',0,{records:S.n},true);
     buildIndex(S);
     DB=S;
-    return {records:S.n,sheets:S.sheetsUsed,kind:kind};
+    var exRecords=0,cbRecords=0,combos=0;
+    for(var i=0;i<S.n;i++){if(S.src[i]===0)exRecords++;else cbRecords++;}
+    for(var j=0;j<S.combo.isCombo.length;j++)if(S.combo.isCombo[j])combos++;
+    return {records:S.n,exRecords:exRecords,cbRecords:cbRecords,comboAwbs:combos,comboSheet:S.comboSheet,sheets:S.sheetsUsed,kind:kind};
   }
 
   /* ---------- search ---------- */
@@ -783,13 +862,26 @@ function engineMain(ctx){
         }
       }
     }
-    var re=I.rowEntry,n=DB.n,cnt=0,i;
+    var re=I.rowEntry,n=DB.n,cnt=0,i,src=DB.src,C=DB.combo;
     for(i=0;i<n;i++)if(hit[re[i]])cnt++;
-    var res=new Int32Array(cnt),j=0;
-    for(i=0;i<n;i++)if(hit[re[i]])res[j++]=i;
-    lastRows=res;
+    var res=new Int32Array(cnt),j=0,seen=null,exHits=0,cbHits=0,comboHits=0;
+    for(i=0;i<n;i++){
+      if(!hit[re[i]])continue;
+      var a=C.rowAwb[i];
+      if(src[i]===0){
+        if(a>=0&&C.isCombo[a]){if(!seen)seen=new Set();seen.add(a+'\u0001'+val(DB,DB.rows[i*NS]));}
+        res[j++]=i;exHits++;
+      }else{
+        /* Skip a Combo Base row that repeats an Exception Base match (same AWB + same description) */
+        if(seen&&a>=0&&seen.has(a+'\u0001'+val(DB,DB.rows[i*NS])))continue;
+        res[j++]=i;cbHits++;
+      }
+      if(a>=0&&C.isCombo[a])comboHits++;
+    }
+    lastRows=j<cnt?res.slice(0,j):res;
     var out=getPage(1,pageSize);
     out.type='result';out.ms=Math.round(performance.now()-t0);out.keywords=kws;out.mode=mode==='any'?'any':'all';
+    out.exHits=exHits;out.cbHits=cbHits;out.comboHits=comboHits;
     return out;
   }
   function getPage(page,size){
@@ -797,8 +889,18 @@ function engineMain(ctx){
     size=Math.max(10,Math.min(1000,size|0||100));
     var total=lastRows.length,pages=Math.max(1,Math.ceil(total/size));
     page=Math.min(Math.max(1,page|0),pages);
-    var s=(page-1)*size,e=Math.min(total,s+size),rows=[],R=DB.rows;
-    for(var i=s;i<e;i++){var o=lastRows[i]*6;rows.push([val(DB,R[o]),val(DB,R[o+1]),val(DB,R[o+2]),val(DB,R[o+3]),val(DB,R[o+4]),val(DB,R[o+5])]);}
+    var s=(page-1)*size,e=Math.min(total,s+size),rows=[],R=DB.rows,C=DB.combo;
+    for(var i=s;i<e;i++){
+      var r=lastRows[i],o=r*NS,a=C.rowAwb[r],fromCombo=DB.src[r]===1;
+      /* Combo Base rows carry no ageing/file type/pendency/bucket: take them from the same AWB's Exception Base row */
+      var ro=o;if(fromCombo&&a>=0&&C.exRow[a])ro=(C.exRow[a]-1)*NS;
+      var ageing=fromCombo&&ro===o?'':val(DB,R[ro+4]),ftype=fromCombo&&ro===o?'':val(DB,R[ro+5]),
+          pend=fromCombo&&ro===o?'':val(DB,R[ro+6]),bucket=fromCombo&&ro===o?'':val(DB,R[ro+7]);
+      var combo=a>=0&&C.isCombo[a]===1;
+      var items=a>=0?Math.max(C.cbCnt[a],C.exCnt[a]):0;
+      rows.push([val(DB,R[o]),val(DB,R[o+1]),val(DB,R[o+2]),val(DB,R[o+3]),ageing,ftype,pend,bucket,
+                 {combo:combo,items:items,src:fromCombo?'combo':'exception',inEx:a>=0&&C.exRow[a]>0}]);
+    }
     return {type:'page',page:page,pages:pages,pageSize:size,total:total,start:s,rows:rows};
   }
 }
@@ -925,9 +1027,9 @@ function engineMain(ctx){
       $('uploadBtn').disabled=false;$('searchBtn').disabled=false;
       setProgress(null);
       var meta=['<span>'+fmtSize(current.size)+'</span>','<span>Processed in '+fmtTime(m.ms)+'</span>'];
-      if(m.sheets&&m.sheets.length){
-        meta.push('<span>'+(m.sheets.length>1?'Sheets':'Sheet')+': '+m.sheets.map(function(s){return esc(s.name)+(m.sheets.length>1?' ('+nf.format(s.records)+')':'');}).join(', ')+'</span>');
-      }
+      meta.push('<span>Exception Base: '+nf.format(m.exRecords)+'</span>');
+      meta.push('<span>Combo Base: '+(m.comboSheet?nf.format(m.cbRecords):'sheet not found, combos flagged from repeated AWBs')+'</span>');
+      meta.push('<span>Combo AWBs: '+nf.format(m.comboAwbs)+'</span>');
       meta.push('<span>'+(engine&&engine.kind==='worker'?'Background processing':'In-page processing')+'</span>');
       setStatus('ok','File uploaded successfully','<span class="fname">'+esc(current.name)+'</span><br><span class="big-count">'+nf.format(m.records)+'</span> records loaded successfully',meta.join(''));
       $('uploadBtn').lastChild.nodeValue=' Upload Different File';
@@ -993,17 +1095,27 @@ function engineMain(ctx){
       renderPage(m);
     }
     $('resChips').innerHTML=m.keywords.map(function(k){return '<span class="chip">'+esc(k)+'</span>';}).join('')+
-      '<span class="hint">'+(m.mode==='any'?'any keyword':'all keywords')+' · '+fmtTime(m.ms)+'</span>';
+      '<span class="hint">'+(m.mode==='any'?'any keyword':'all keywords')+' · '+fmtTime(m.ms)+
+      (m.total?' · Exception Base '+nf.format(m.exHits)+' · Combo Base '+nf.format(m.cbHits)+' · Combo rows '+nf.format(m.comboHits):'')+'</span>';
   }
   function cell(v,cls){return '<td'+(cls?' class="'+cls+'"':'')+'>'+(v===''?'<span class="blank">—</span>':esc(v))+'</td>';}
+  function hue(v){var h=0;for(var i=0;i<v.length;i++)h=(h*31+v.charCodeAt(i))>>>0;return h%6;}
+  function remarks(x){
+    var src=x.src==='combo'?'Found in Combo Base'+(x.inEx?'':' · not in Exception Base'):'Found in Exception Base';
+    if(x.combo)return '<div class="rem"><span class="combo-pill">COMBO</span><span class="src">'+nf.format(x.items)+' products on this AWB</span><span class="src">'+src+'</span></div>';
+    return '<div class="rem"><span class="single">Single product</span><span class="src">'+src+'</span></div>';
+  }
   function renderPage(m){
     view.page=m.page;view.pages=m.pages;
     var html=new Array(m.rows.length);
     for(var i=0;i<m.rows.length;i++){
-      var r=m.rows[i];
-      html[i]='<tr><td class="desc">'+(r[0]===''?'<span class="blank">—</span>':highlight(r[0]))+'</td>'+
+      var r=m.rows[i],x=r[8];
+      html[i]='<tr'+(x.combo?' class="combo"':'')+'><td class="desc">'+(r[0]===''?'<span class="blank">—</span>':highlight(r[0]))+'</td>'+
         cell(r[1],'cat')+cell(r[2],'awb')+cell(r[3])+cell(r[4],'num')+
-        '<td>'+(r[5]===''?'<span class="blank">—</span>':'<span class="pill">'+esc(r[5])+'</span>')+'</td></tr>';
+        '<td>'+(r[5]===''?'<span class="blank">—</span>':'<span class="pill">'+esc(r[5])+'</span>')+'</td>'+
+        '<td>'+(r[6]===''?'<span class="blank">—</span>':'<span class="pend">'+esc(r[6])+'</span>')+'</td>'+
+        '<td>'+(r[7]===''?'<span class="blank">—</span>':'<span class="bk bk'+hue(r[7])+'">'+esc(r[7])+'</span>')+'</td>'+
+        '<td>'+remarks(x)+'</td></tr>';
     }
     $('tbody').innerHTML=html.join('');
     $('tableWrap').scrollTop=0;
