@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Upload the Exception Salvaging Base and search Product Descriptions to find matching AWBs.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23D3182A'/%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='white' stroke-width='3'/%3E%3Cpath d='m19 19 6 6' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<title>Exception Salvaging Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+html{color-scheme:light}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+:root{
+  --red:#D3182A; --red-deep:#A50F1E; --red-tint:#FCEBED; --red-line:#F4C4CA;
+  --ink:#1D1718; --ink-2:#4A4042; --muted:#7A6E70;
+  --bg:#F5F2F2; --card:#FFFFFF; --line:#E8E0E1; --line-2:#F1ECEC; --row-alt:#FBF9F9; --row-hover:#FFF5F6;
+  --ok:#1E7B4A; --ok-tint:#E6F4EC; --warn:#9A6200; --warn-tint:#FFF4DC;
+  --mark:#FFE08A; --mark-ink:#1D1718;
+  --shadow:0 1px 2px rgba(60,20,24,.06),0 4px 16px rgba(60,20,24,.06);
+  --font:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --red:#F0404F; --red-deep:#C92233; --red-tint:#3A1B1F; --red-line:#6A2A31;
+    --ink:#F3EDED; --ink-2:#D2C8C9; --muted:#A3979A;
+    --bg:#141112; --card:#1F1A1B; --line:#3A3133; --line-2:#2B2425; --row-alt:#231D1E; --row-hover:#2E2224;
+    --ok:#5CC98E; --ok-tint:#17301F; --warn:#F2B64C; --warn-tint:#33280F;
+    --mark:#7A5B00; --mark-ink:#FFF3CC;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --red:#F0404F; --red-deep:#C92233; --red-tint:#3A1B1F; --red-line:#6A2A31;
+  --ink:#F3EDED; --ink-2:#D2C8C9; --muted:#A3979A;
+  --bg:#141112; --card:#1F1A1B; --line:#3A3133; --line-2:#2B2425; --row-alt:#231D1E; --row-hover:#2E2224;
+  --ok:#5CC98E; --ok-tint:#17301F; --warn:#F2B64C; --warn-tint:#33280F;
+  --mark:#7A5B00; --mark-ink:#FFF3CC;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 16px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+
+/* Header */
+.topbar{background:var(--red);color:#fff;padding-block:18px 22px;padding-inline:16px;border-bottom:4px solid var(--red-deep)}
+.topbar-in{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.wordmark{font-weight:800;font-size:22px;letter-spacing:-.02em;text-transform:lowercase;line-height:1}
+.brand-div{width:1px;height:34px;background:rgba(255,255,255,.45)}
+.brand h1{margin:0;font-size:clamp(17px,2.4vw,22px);font-weight:800;letter-spacing:.04em;line-height:1.15;text-wrap:balance}
+.brand p{margin:3px 0 0;font-size:13px;opacity:.9;font-weight:500}
+.unit-tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:5px 12px;white-space:nowrap}
+
+/* Layout */
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 22px}
+.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.step{display:inline-flex;align-items:center;gap:8px}
+.step b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;letter-spacing:0}
+.hint{color:var(--muted);font-size:12.5px}
+
+/* Upload */
+.drop{border:1.5px dashed var(--red-line);border-radius:12px;background:var(--red-tint);padding:18px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;transition:border-color .15s,background .15s}
+.drop.drag{border-color:var(--red);border-style:solid}
+.drop-icon{flex:none;width:46px;height:46px;border-radius:12px;background:var(--card);border:1px solid var(--red-line);display:grid;place-items:center;color:var(--red)}
+.drop-text{flex:1 1 260px;min-width:0}
+.drop-text strong{display:block;font-size:15px;font-weight:700}
+.drop-text span{color:var(--ink-2);font-size:13px}
+.btn{appearance:none;border:0;border-radius:10px;padding:11px 20px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center;white-space:nowrap}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:hover{background:var(--red-deep)}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed}
+.btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--red);color:var(--red)}
+.btn-ghost:disabled{opacity:.5;cursor:not-allowed;color:var(--muted);border-color:var(--line)}
+
+.status{margin-top:14px;display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--row-alt)}
+.status .dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:5px;background:var(--muted)}
+.status.ok{background:var(--ok-tint);border-color:transparent}
+.status.ok .dot{background:var(--ok)}
+.status.busy .dot{background:var(--red);animation:pulse 1s ease-in-out infinite}
+.status.err{background:var(--red-tint);border-color:var(--red-line)}
+.status.err .dot{background:var(--red)}
+.status-body{flex:1;min-width:0}
+.status-title{font-weight:700}
+.status-sub{color:var(--ink-2);font-size:13px;overflow-wrap:anywhere}
+.fname{font-family:var(--mono);font-size:13px;font-weight:500;overflow-wrap:anywhere}
+.big-count{font-variant-numeric:tabular-nums;font-weight:800}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;color:var(--muted);font-size:12.5px}
+.progress{margin-top:10px;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--red);border-radius:99px;transition:width .2s ease}
+.progress.indet i{width:35%;animation:slide 1.1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+
+/* Search */
+.search-row{display:flex;gap:10px;flex-wrap:wrap}
+.search-box{flex:1 1 360px;position:relative;min-width:0}
+.search-box svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+#q{width:100%;height:54px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);padding:0 16px 0 48px;font-size:16px;font-weight:500;transition:border-color .15s,box-shadow .15s}
+#q::placeholder{color:var(--muted);font-weight:400}
+#q:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 4px var(--red-tint)}
+#searchBtn{height:54px;padding:0 34px;font-size:14px;flex:0 0 auto}
+.search-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;margin-top:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.seg input:checked+span{background:var(--ink);color:var(--card)}
+.seg input:focus-visible+span{outline:2px solid var(--red);outline-offset:-2px}
+.match-label{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-right:8px}
+.alert{margin-top:12px;padding:10px 14px;border-radius:10px;background:var(--red-tint);border:1px solid var(--red-line);color:var(--ink);font-size:13.5px;font-weight:500}
+.alert.warn{background:var(--warn-tint);border-color:transparent}
+
+/* Results */
+.res-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-bottom:12px}
+.res-title{font-size:17px;font-weight:700;margin:0}
+.res-title .big-count{color:var(--red)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--line-2);color:var(--ink-2);font-family:var(--mono)}
+.empty{padding:36px 16px;text-align:center;border:1px dashed var(--line);border-radius:12px}
+.empty strong{display:block;font-size:16px;margin-bottom:4px}
+.empty span{color:var(--muted);font-size:13px}
+.table-wrap{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:min(68vh,720px);background:var(--card)}
+table{width:100%;min-width:940px;border-collapse:separate;border-spacing:0;table-layout:fixed}
+thead th{position:sticky;top:0;z-index:2;background:var(--ink);color:var(--card);font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;text-align:center;padding:12px 10px;border-right:1px solid rgba(255,255,255,.14)}
+thead th:last-child{border-right:0}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--line-2);border-right:1px solid var(--line-2);vertical-align:middle;text-align:center;font-size:13.5px;overflow-wrap:anywhere}
+tbody td:last-child{border-right:0}
+tbody tr:nth-child(even) td{background:var(--row-alt)}
+tbody tr:hover td{background:var(--row-hover)}
+td.desc{text-align:left;line-height:1.45;color:var(--ink)}
+td.awb{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.01em;user-select:all}
+td.num{font-variant-numeric:tabular-nums;font-weight:600}
+td.cat{color:var(--ink-2)}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;background:var(--red-tint);color:var(--red);border:1px solid var(--red-line);text-transform:uppercase;max-width:100%;overflow-wrap:anywhere}
+.blank{color:var(--muted)}
+mark{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:0 1px}
+col.c-desc{width:36%} col.c-cat{width:16%} col.c-awb{width:17%} col.c-dc{width:13%} col.c-age{width:8%} col.c-type{width:10%}
+.pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:12px}
+.pager-info{color:var(--ink-2);font-size:13px;font-variant-numeric:tabular-nums}
+.pager-ctl{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pager-ctl .btn{padding:8px 12px;font-size:12px;letter-spacing:.04em}
+.pager select{border:1px solid var(--line);border-radius:8px;padding:7px 8px;background:var(--card)}
+.pg-label{font-size:12.5px;color:var(--muted)}
+.foot{color:var(--muted);font-size:12px;text-align:center}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:640px){
+  .card{padding:16px}
+  .brand-div{display:none}
+  .brand{flex-direction:column;align-items:flex-start;gap:6px}
+  #searchBtn{width:100%}
+  .drop .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="wordmark">shadowfax</span>
+      <span class="brand-div" aria-hidden="true"></span>
+      <div>
+        <h1>EXCEPTION SALVAGING DASHBOARD</h1>
+        <p>Product Search &amp; Salvaging Pendency Lookup</p>
+      </div>
+    </div>
+    <span class="unit-tag">Middle Mile · Audit &amp; Compliance</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- UPLOAD -->
+  <section class="card" aria-labelledby="upTitle">
+    <div class="card-head">
+      <span class="eyebrow step" id="upTitle"><b>1</b>Upload Exception Salvaging Base</span>
+      <span class="hint">.xlsx or .csv · up to 350 MB · processed on this device, nothing is sent anywhere</span>
+    </div>
+    <div class="drop" id="drop">
+      <div class="drop-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/></svg>
+      </div>
+      <div class="drop-text">
+        <strong>Drop the Exception Salvaging Base file here</strong>
+        <span>Needs columns: Product Description, Product Category, Awb_number, DC liability, Central ageing, PENDENCY TYPE</span>
+      </div>
+      <button class="btn btn-primary" id="uploadBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/></svg>
+        Upload File
+      </button>
+      <input type="file" id="fileInput" accept=".xlsx,.xlsm,.csv,.tsv,.txt" hidden>
+    </div>
+
+    <div class="status" id="status" role="status" aria-live="polite">
+      <span class="dot" aria-hidden="true"></span>
+      <div class="status-body">
+        <div class="status-title" id="stTitle">No file uploaded</div>
+        <div class="status-sub" id="stSub">Upload the base file to start searching.</div>
+        <div class="meta" id="stMeta" hidden></div>
+        <div class="progress" id="prog" hidden><i id="progBar"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="card" aria-labelledby="sTitle">
+    <div class="card-head">
+      <label class="eyebrow step" id="sTitle" for="q"><b>2</b>SEARCH PRODUCT</label>
+      <span class="hint">Case-insensitive · partial words match (shoe finds Shoes) · extra spaces ignored</span>
+    </div>
+    <form class="search-row" id="searchForm" autocomplete="off">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search Product Description / Enter Keywords" aria-label="Search Product Description keywords" spellcheck="false">
+      </div>
+      <button class="btn btn-primary" id="searchBtn" type="submit">SEARCH</button>
+    </form>
+    <div class="search-foot">
+      <div>
+        <span class="match-label" id="matchLbl">Match</span>
+        <div class="seg" role="radiogroup" aria-labelledby="matchLbl">
+          <label><input type="radio" name="mode" id="modeAll" value="all" checked><span>All keywords</span></label>
+          <label><input type="radio" name="mode" id="modeAny" value="any"><span>Any keyword</span></label>
+        </div>
+      </div>
+      <span class="hint" id="modeHint">“nike shoe” returns descriptions containing both nike and shoe.</span>
+    </div>
+    <div class="alert" id="searchAlert" hidden></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="card" id="results" aria-labelledby="resTitle" hidden>
+    <div class="res-head">
+      <h2 class="res-title" id="resTitle"></h2>
+      <div class="chips" id="resChips"></div>
+    </div>
+    <div class="empty" id="noResults" hidden>
+      <strong>No matching records found.</strong>
+      <span id="noResHint">Try fewer or shorter keywords, or switch Match to “Any keyword”.</span>
+    </div>
+    <div id="tableArea">
+      <div class="table-wrap" id="tableWrap">
+        <table>
+          <colgroup><col class="c-desc"><col class="c-cat"><col class="c-awb"><col class="c-dc"><col class="c-age"><col class="c-type"></colgroup>
+          <thead><tr>
+            <th scope="col">Product Description</th><th scope="col">Product Category</th><th scope="col">AWB Number</th>
+            <th scope="col">DC Liability</th><th scope="col">Ageing</th><th scope="col">File Type</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <div class="pager-info" id="pgInfo"></div>
+        <div class="pager-ctl">
+          <label class="pg-label" for="pgSize">Rows per page</label>
+          <select id="pgSize"><option>50</option><option selected>100</option><option>250</option><option>500</option></select>
+          <button class="btn btn-ghost" id="pgFirst" type="button" aria-label="First page">«</button>
+          <button class="btn btn-ghost" id="pgPrev" type="button">Prev</button>
+          <span class="pager-info" id="pgNum"></span>
+          <button class="btn btn-ghost" id="pgNext" type="button">Next</button>
+          <button class="btn btn-ghost" id="pgLast" type="button" aria-label="Last page">»</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Values are shown exactly as they appear in the uploaded file. Upload → Search → View matching AWBs.</p>
+</main>
+
+<script>
+/* ===================== ENGINE (runs in a Web Worker; falls back to the page) ===================== */
+function engineMain(ctx){
+  'use strict';
+  var REQUIRED=['Product Description','Product Category','Awb_number','DC liability','Central ageing','PENDENCY TYPE'];
+  var DEDUPE=[false,true,false,true,true,true];
+  var MAX_BYTES=350*1024*1024;
+  function Fail(code,msg,extra){this.code=code;this.userMsg=msg||null;this.extra=extra||null;}
+  var DB=null, lastRows=null, lastProg=0;
+
+  function post(m){ctx.postMessage(m);}
+  function progress(stage,frac,detail,force){
+    var now=Date.now(); if(!force&&now-lastProg<120)return; lastProg=now;
+    post({type:'progress',stage:stage,frac:frac,detail:detail||null});
+  }
+  ctx.onmessage=function(e){handle(e.data);};
+
+  async function handle(m){
+    try{
+      if(m.type==='ping'){post({type:'pong'});return;}
+      if(m.type==='load'){
+        DB=null;lastRows=null;
+        var t0=Date.now(); var res=await load(m.file);
+        res.type='loaded'; res.ms=Date.now()-t0; post(res); return;
+      }
+      if(m.type==='search'){post(search(m.query,m.mode,m.pageSize));return;}
+      if(m.type==='page'){post(getPage(m.page,m.pageSize));return;}
+    }catch(err){
+      var code='PROCESS',extra=null;
+      if(err instanceof Fail){code=err.code;extra=err.extra;}
+      else if(err instanceof RangeError||/memory|allocation/i.test(String(err&&err.message))){code='MEMORY';}
+      else if(err&&(err.name==='NotReadableError'||err.name==='NotFoundError')){code='READ';}
+      if(m.type==='load'){DB=null;lastRows=null;}
+      post({type:'error',op:m.type,code:code,extra:extra});
+    }
+  }
+
+  /* ---------- store ---------- */
+  function makeStore(){
+    return {rows:new Int32Array(6*65536),n:0,extras:[''],maps:[new Map(),new Map(),new Map(),new Map(),new Map(),new Map()],
+            sst:null,needed:new Uint8Array(1<<16),sheetsUsed:[],idx:null};
+  }
+  function addExtra(S,slot,text){
+    if(text==='')return 0;
+    if(DEDUPE[slot]){var mp=S.maps[slot];var id=mp.get(text);if(id===undefined){id=S.extras.length;S.extras.push(text);mp.set(text,id);}return id;}
+    S.extras.push(text);return S.extras.length-1;
+  }
+  function markNeeded(S,k){
+    if(k>=S.needed.length){var L=S.needed.length;while(L<=k)L*=2;var b=new Uint8Array(L);b.set(S.needed);S.needed=b;}
+    S.needed[k]=1;
+  }
+  function pushRow(S,codes){
+    if((S.n+1)*6>S.rows.length){var b=new Int32Array(S.rows.length*2);b.set(S.rows);S.rows=b;}
+    var o=S.n*6;for(var i=0;i<6;i++)S.rows[o+i]=codes[i];S.n++;
+  }
+  function val(S,code){
+    if(code>=0)return S.extras[code];
+    var s=S.sst?S.sst[-code-1]:null; return s==null?'':s;
+  }
+
+  /* ---------- XML helpers ---------- */
+  var ENT={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"};
+  function decodeXml(s){
+    if(s.indexOf('&')>=0){
+      s=s.replace(/&(#x[0-9a-fA-F]+|#\d+|amp|lt|gt|quot|apos);/g,function(m,g){
+        if(g.charCodeAt(0)===35){var cp=g.charCodeAt(1)===120?parseInt(g.slice(2),16):parseInt(g.slice(1),10);try{return String.fromCodePoint(cp);}catch(e){return m;}}
+        return ENT[g];
+      });
+    }
+    if(s.indexOf('_x')>=0){s=s.replace(/_x([0-9A-Fa-f]{4})_/g,function(m,h){return String.fromCharCode(parseInt(h,16));});}
+    return s;
+  }
+  var RPH=/<(?:[\w.-]+:)?rPh\b[\s\S]*?<\/(?:[\w.-]+:)?rPh>/g;
+  var TRE=/<(?:[\w.-]+:)?t\b[^>]*?(?:\/>|>([\s\S]*?)<\/(?:[\w.-]+:)?t>)/g;
+  var SIMPLE_T=/^<t(?:\s[^>]*)?>([^<]*)<\/t>$/;
+  function richText(x){
+    if(!x)return '';
+    var sm=SIMPLE_T.exec(x); if(sm)return decodeXml(sm[1]);
+    if(x.indexOf('rPh')>=0)x=x.replace(RPH,'');
+    var out='',m;TRE.lastIndex=0;
+    while((m=TRE.exec(x))!==null){if(m[1])out+=m[1];}
+    return decodeXml(out);
+  }
+  function attrs(str){
+    var o={},re=/([\w:.-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g,m;
+    while((m=re.exec(str))!==null){o[m[1]]=decodeXml(m[2]!==undefined?m[2]:m[3]);}
+    return o;
+  }
+  function colIndex(ref){
+    var n=0;for(var i=0;i<ref.length;i++){var c=ref.charCodeAt(i);
+      if(c>=65&&c<=90)n=n*26+(c-64);else if(c>=97&&c<=122)n=n*26+(c-96);else break;}
+    return n-1;
+  }
+
+  /* ---------- ZIP (streamed, no full-file copy) ---------- */
+  async function readBytes(file,start,len){return new Uint8Array(await file.slice(start,start+len).arrayBuffer());}
+  function u16(b,o){return b[o]|(b[o+1]<<8);}
+  function u32(b,o){return (b[o]|(b[o+1]<<8)|(b[o+2]<<16))+b[o+3]*16777216;}
+  function u64(b,o){return u32(b,o)+u32(b,o+4)*4294967296;}
+  async function readZipDir(file){
+    var tailLen=Math.min(file.size,65557+22);
+    var tailStart=file.size-tailLen;
+    var tail=await readBytes(file,tailStart,tailLen);
+    var p=-1;
+    for(var i=tail.length-22;i>=0;i--){if(tail[i]===0x50&&tail[i+1]===0x4b&&tail[i+2]===5&&tail[i+3]===6){p=i;break;}}
+    if(p<0)throw new Fail('READ');
+    var count=u16(tail,p+10),cdSize=u32(tail,p+12),cdOff=u32(tail,p+16);
+    if(count===0xFFFF||cdSize===0xFFFFFFFF||cdOff===0xFFFFFFFF){
+      var locAbs=tailStart+p-20;
+      if(locAbs>=0){
+        var loc=await readBytes(file,locAbs,20);
+        if(u32(loc,0)===0x07064b50){
+          var z=await readBytes(file,u64(loc,8),56);
+          if(u32(z,0)===0x06064b50){cdSize=u64(z,40);cdOff=u64(z,48);}
+        }
+      }
+    }
+    if(cdOff+cdSize>file.size)throw new Fail('READ');
+    var cd=await readBytes(file,cdOff,cdSize);
+    var entries=new Map(),o=0,dec=new TextDecoder();
+    while(o+46<=cd.length&&u32(cd,o)===0x02014b50){
+      var method=u16(cd,o+10),csize=u32(cd,o+20),usize=u32(cd,o+24);
+      var nl=u16(cd,o+28),xl=u16(cd,o+30),cl=u16(cd,o+32),lho=u32(cd,o+42);
+      var name=dec.decode(cd.subarray(o+46,o+46+nl));
+      var x=o+46+nl,xe=x+xl;
+      while(x+4<=xe){
+        var id=u16(cd,x),sz=u16(cd,x+2);
+        if(id===1){var q=x+4;
+          if(usize===0xFFFFFFFF){usize=u64(cd,q);q+=8;}
+          if(csize===0xFFFFFFFF){csize=u64(cd,q);q+=8;}
+          if(lho===0xFFFFFFFF){lho=u64(cd,q);q+=8;}}
+        x+=4+sz;
+      }
+      name=name.replace(/\\/g,'/').replace(/^\//,'');
+      entries.set(name.toLowerCase(),{name:name,method:method,csize:csize,usize:usize,lho:lho});
+      o=xe+cl;
+    }
+    return entries;
+  }
+  async function streamEntry(file,ent,onText,onProg){
+    var h=await readBytes(file,ent.lho,30);
+    if(u32(h,0)!==0x04034b50)throw new Fail('READ');
+    var start=ent.lho+30+u16(h,26)+u16(h,28);
+    var stream=file.slice(start,start+ent.csize).stream();
+    if(ent.method===8)stream=stream.pipeThrough(new DecompressionStream('deflate-raw'));
+    else if(ent.method!==0)throw new Fail('READ');
+    var reader=stream.getReader(),td=new TextDecoder('utf-8'),done=0;
+    try{
+      for(;;){
+        var r=await reader.read(); if(r.done)break;
+        done+=r.value.length;
+        if(onText(td.decode(r.value,{stream:true}),false)===false){try{await reader.cancel();}catch(e){}return;}
+        if(onProg)onProg(done,ent.usize||1);
+      }
+    }catch(e){if(e instanceof Fail)throw e;if(e instanceof RangeError)throw e;throw new Fail('READ');}
+    onText(td.decode(),true);
+  }
+  async function readWhole(file,ent){var parts=[];await streamEntry(file,ent,function(t){parts.push(t);});return parts.join('');}
+
+  /* Streams one XML part and calls onElem(inner, attrString) for each <tag> element. */
+  async function streamElements(file,ent,tag,onElem,onProg){
+    var re=new RegExp('<(?:[\\w.-]+:)?'+tag+'\\b([^>]*?)(?:\\/>|>([\\s\\S]*?)<\\/(?:[\\w.-]+:)?'+tag+'>)','g');
+    var openRe=new RegExp('<(?:[\\w.-]+:)?'+tag+'\\b','g');
+    var buf='';
+    await streamEntry(file,ent,function(text,final){
+      buf=buf?buf+text:text;
+      re.lastIndex=0;var m,last=0;
+      while((m=re.exec(buf))!==null){last=re.lastIndex;if(onElem(m[2],m[1])===false){buf='';return false;}}
+      if(final){buf='';return;}
+      openRe.lastIndex=last;var o=openRe.exec(buf);
+      buf=o?buf.slice(o.index):buf.slice(Math.max(last,buf.length-128));
+    },onProg);
+  }
+
+  function resolvePath(dir,target){
+    if(target.charAt(0)==='/')return target.slice(1);
+    var parts=(dir+target).split('/'),out=[];
+    for(var i=0;i<parts.length;i++){var p=parts[i];if(p==='..')out.pop();else if(p!=='.'&&p!=='')out.push(p);}
+    return out.join('/');
+  }
+
+  /* ---------- header matching ---------- */
+  function hkey(s){return s.replace(/\s+/g,' ').trim().toLowerCase();}
+  function mapHeaders(cells){
+    var exact=new Map(),loose=new Map();
+    cells.forEach(function(c){var t=(c.text||'').trim();if(!t)return;if(!exact.has(t))exact.set(t,c.col);var k=hkey(t);if(!loose.has(k))loose.set(k,c.col);});
+    var cols=[],missing=[];
+    REQUIRED.forEach(function(h){var c=exact.get(h);if(c===undefined)c=loose.get(hkey(h));if(c===undefined)missing.push(h);cols.push(c===undefined?-1:c);});
+    return {cols:cols,missing:missing};
+  }
+
+  /* ---------- XLSX ---------- */
+  var CRE=/<(?:[\w.-]+:)?c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/(?:[\w.-]+:)?c>)/g;
+  var VRE=/<(?:[\w.-]+:)?v\b[^>]*>([\s\S]*?)<\/(?:[\w.-]+:)?v>/;
+  var ISRE=/<(?:[\w.-]+:)?is\b[^>]*>([\s\S]*?)<\/(?:[\w.-]+:)?is>/;
+  var RATTR=/(?:^|\s)r\s*=\s*["']([A-Za-z]+)/;
+  var TATTR=/(?:^|\s)t\s*=\s*["']([^"']*)["']/;
+
+  function parseCellsRaw(inner){
+    var out=[],col=-1,m;CRE.lastIndex=0;
+    if(inner===undefined)return out;
+    while((m=CRE.exec(inner))!==null){
+      var rm=RATTR.exec(m[1]);col=rm?colIndex(rm[1]):col+1;
+      var cin=m[2];if(cin===undefined)continue;
+      var tm=TATTR.exec(m[1]),t=tm?tm[1]:'n';
+      if(t==='inlineStr'){var im=ISRE.exec(cin);out.push({col:col,text:im?richText(im[1]):''});continue;}
+      var vm=VRE.exec(cin);if(!vm)continue;
+      if(t==='s')out.push({col:col,s:parseInt(vm[1],10)});else out.push({col:col,text:decodeXml(vm[1])});
+    }
+    return out;
+  }
+
+  async function loadXlsx(file){
+    if(typeof DecompressionStream==='undefined')throw new Fail('BROWSER');
+    try{new DecompressionStream('deflate-raw');}catch(e){throw new Fail('BROWSER');}
+    progress('open',0,null,true);
+    var Z=await readZipDir(file);
+    function get(p){return Z.get(String(p).toLowerCase());}
+    var wbPath='xl/workbook.xml';
+    if(!get(wbPath)){
+      wbPath=null;
+      Z.forEach(function(v,k){if(!wbPath&&/(^|\/)workbook\.xml$/.test(k)&&k.indexOf('_rels')<0)wbPath=v.name;});
+      if(!wbPath)throw new Fail(Z.has('xl/workbook.bin')?'FORMAT':'READ');
+    }
+    var slash=wbPath.lastIndexOf('/'),dir=wbPath.slice(0,slash+1),base=wbPath.slice(slash+1);
+    var wbXml=await readWhole(file,get(wbPath));
+    var relsEnt=get(dir+'_rels/'+base+'.rels');
+    var relsXml=relsEnt?await readWhole(file,relsEnt):'';
+    var rels={},sstPath=null,m;
+    var relRe=/<(?:[\w.-]+:)?Relationship\b([^>]*?)\/?>/g;
+    while((m=relRe.exec(relsXml))!==null){
+      var a=attrs(m[1]);if(!a.Id)continue;
+      var tgt=resolvePath(dir,a.Target||'');rels[a.Id]={type:a.Type||'',target:tgt};
+      if(/\/sharedStrings$/i.test(a.Type||''))sstPath=tgt;
+    }
+    if(!sstPath&&get(dir+'sharedStrings.xml'))sstPath=dir+'sharedStrings.xml';
+    var sstEnt=sstPath?get(sstPath):null;
+
+    var sheets=[],shRe=/<(?:[\w.-]+:)?sheet\b([^>]*?)\/?>/g;
+    while((m=shRe.exec(wbXml))!==null){
+      var sa=attrs(m[1]),rid=null;
+      for(var k in sa){if(/(^|:)id$/.test(k)&&k!=='sheetId'){rid=sa[k];break;}}
+      var rel=rid&&rels[rid];
+      if(!rel||!/\/worksheet$/i.test(rel.type))continue;
+      var ent=get(rel.target);if(ent)sheets.push({name:sa.name||rel.target,ent:ent});
+    }
+    if(!sheets.length){
+      Z.forEach(function(v,k){if(/^xl\/worksheets\/[^/]+\.xml$/.test(k))sheets.push({name:v.name.replace(/^.*\//,'').replace(/\.xml$/,''),ent:v});});
+    }
+    if(!sheets.length)throw new Fail('EMPTY');
+
+    /* 1) Peek each sheet's first rows to find its header row (early stop) */
+    progress('headers',0,null,true);
+    var needHdr=new Set();
+    for(var si=0;si<sheets.length;si++){
+      var sh=sheets[si],peek=[],ord=0;
+      await streamElements(file,sh.ent,'row',function(inner){
+        ord++;var cells=parseCellsRaw(inner);
+        if(cells.some(function(c){return c.s!==undefined||c.text!=='';})){peek.push({ord:ord,cells:cells});}
+        return peek.length<25;
+      });
+      sh.peek=peek;
+      peek.forEach(function(r){r.cells.forEach(function(c){if(c.s!==undefined)needHdr.add(c.s);});});
+    }
+    /* 2) Resolve header text from shared strings (early stop at highest index needed) */
+    var hdrStr=new Map();
+    if(needHdr.size){
+      if(!sstEnt)throw new Fail('READ');
+      var maxIdx=-1;needHdr.forEach(function(v){if(v>maxIdx)maxIdx=v;});
+      var i0=0;
+      await streamElements(file,sstEnt,'si',function(inner){
+        if(needHdr.has(i0))hdrStr.set(i0,inner===undefined?'':richText(inner));
+        i0++;return i0<=maxIdx;
+      });
+    }
+    /* 3) Pick sheets that carry every required column */
+    var usable=[],best=null;
+    sheets.forEach(function(sh){
+      var pick=null;
+      sh.peek.forEach(function(r){
+        var cells=r.cells.map(function(c){return {col:c.col,text:c.s!==undefined?(hdrStr.get(c.s)||''):c.text};});
+        var hm=mapHeaders(cells);
+        if(!pick||hm.missing.length<pick.hm.missing.length)pick={ord:r.ord,hm:hm};
+      });
+      if(!pick)return;
+      if(!best||pick.hm.missing.length<best.missing.length)best={missing:pick.hm.missing,sheet:sh.name};
+      if(pick.hm.missing.length===0){
+        var slotOf=[],maxCol=-1;
+        pick.hm.cols.forEach(function(c,slot){slotOf[c]=slot;if(c>maxCol)maxCol=c;});
+        for(var q=0;q<=maxCol;q++)if(slotOf[q]===undefined)slotOf[q]=-1;
+        sh.slotOf=slotOf;sh.maxCol=maxCol;sh.headerOrd=pick.ord;sh.peek=null;usable.push(sh);
+      }
+    });
+    if(!usable.length){
+      if(!best)throw new Fail('EMPTY');
+      throw new Fail('MISSING',null,{missing:best.missing,sheet:sheets.length>1?best.sheet:null});
+    }
+
+    /* 4) Stream each usable sheet; keep only the 6 required columns */
+    var S=makeStore();
+    var grand=0;usable.forEach(function(sh){grand+=sh.ent.usize||1;});
+    var sstW=sstEnt?(sstEnt.usize||1):0;grand+=sstW;
+    var baseDone=0,codes=new Int32Array(6);
+    for(var ui=0;ui<usable.length;ui++){
+      var shx=usable[ui],slotOfX=shx.slotOf,maxColX=shx.maxCol,hdrOrd=shx.headerOrd,ordX=0,before=S.n;
+      await streamElements(file,shx.ent,'row',function(inner){
+        ordX++;
+        if(ordX<=hdrOrd||inner===undefined)return;
+        codes.fill(0);var any=false,col=-1,mm;CRE.lastIndex=0;
+        while((mm=CRE.exec(inner))!==null){
+          var at=mm[1],rm=RATTR.exec(at);col=rm?colIndex(rm[1]):col+1;
+          if(col>maxColX)break;
+          var slot=slotOfX[col];if(slot<0)continue;
+          var cin=mm[2];if(cin===undefined)continue;
+          var tm=TATTR.exec(at),t=tm?tm[1]:'n',code=0;
+          if(t==='inlineStr'){var im=ISRE.exec(cin);code=addExtra(S,slot,im?richText(im[1]):'');}
+          else{
+            var vm=VRE.exec(cin);if(!vm)continue;
+            if(t==='s'){var kk=parseInt(vm[1],10);if(kk>=0){markNeeded(S,kk);code=-(kk+1);}}
+            else code=addExtra(S,slot,decodeXml(vm[1]));
+          }
+          if(code!==0){codes[slot]=code;any=true;}
+        }
+        if(any)pushRow(S,codes);
+      },function(d,tot){progress('rows',(baseDone+d)/grand,{records:S.n,sheet:usable.length>1?shx.name:null});});
+      baseDone+=shx.ent.usize||1;
+      S.sheetsUsed.push({name:shx.name,records:S.n-before});
+    }
+    if(S.n===0)throw new Fail('EMPTY');
+
+    /* 5) Resolve text: keep only shared strings referenced by the 6 columns */
+    if(sstEnt){
+      var sst=[],need=S.needed,ix=0;
+      await streamElements(file,sstEnt,'si',function(inner){
+        sst.push(ix<need.length&&need[ix]?(inner===undefined?'':richText(inner)):null);ix++;
+      },function(d){progress('text',(baseDone+d)/grand,{records:S.n});});
+      S.sst=sst;
+    }
+    S.needed=null;
+    return S;
+  }
+
+  /* ---------- CSV ---------- */
+  function csvParse(s,final,D,P,onRow){
+    var n=s.length,i=0,rowStart=0,row=[],col=0;
+    while(i<n){
+      var v,want=P.want(col),k,c;
+      if(s.charCodeAt(i)===34){
+        var j=i+1,esc=false,q;
+        for(;;){
+          q=s.indexOf('"',j);
+          if(q<0){if(!final)return rowStart;q=n;break;}
+          if(q+1<n&&s.charCodeAt(q+1)===34){esc=true;j=q+2;continue;}
+          if(q+1>=n&&!final)return rowStart;
+          break;
+        }
+        if(want){v=s.slice(i+1,q);if(esc)v=v.replace(/""/g,'"');}
+        i=Math.min(q+1,n);k=i;
+        while(k<n){c=s.charCodeAt(k);if(c===D||c===10||c===13)break;k++;}
+        if(k>=n&&!final)return rowStart;
+        if(want&&k>i)v+=s.slice(i,k);
+        i=k;
+      }else{
+        k=i;while(k<n){c=s.charCodeAt(k);if(c===D||c===10||c===13)break;k++;}
+        if(k>=n&&!final)return rowStart;
+        if(want)v=s.slice(i,k);
+        i=k;
+      }
+      if(want)row[col]=v;
+      if(i>=n){onRow(row);return n;}
+      c=s.charCodeAt(i);
+      if(c===D){col++;i++;if(i>=n){if(!final)return rowStart;onRow(row);return n;}continue;}
+      i++;
+      if(c===13){if(i<n&&s.charCodeAt(i)===10)i++;else if(i>=n&&!final)return rowStart;}
+      onRow(row);row=[];col=0;rowStart=i;
+    }
+    return rowStart;
+  }
+  function detectDelim(t){
+    var nl=t.search(/[\r\n]/),line=nl<0?t:t.slice(0,nl);
+    var best=',',bc=-1;[',','\t',';','|'].forEach(function(d){var c=line.split(d).length-1;if(c>bc){bc=c;best=d;}});
+    return best;
+  }
+  async function loadCsv(file){
+    var S=makeStore(),CH=4*1024*1024,td=new TextDecoder('utf-8'),pos=0,buf='',first=true,D=44;
+    var header=false,slotOf=null,maxCol=-1,codes=new Int32Array(6);
+    var P={want:function(){return true;}};
+    function onRow(row){
+      if(!header){
+        var cells=[],nonEmpty=false;
+        for(var i=0;i<row.length;i++){var t=row[i]||'';if(t.trim())nonEmpty=true;cells.push({col:i,text:t});}
+        if(!nonEmpty)return;
+        header=true;
+        var hm=mapHeaders(cells);
+        if(hm.missing.length)throw new Fail('MISSING',null,{missing:hm.missing});
+        slotOf=[];hm.cols.forEach(function(c,slot){slotOf[c]=slot;if(c>maxCol)maxCol=c;});
+        P.want=function(c){return c<=maxCol&&slotOf[c]!==undefined;};
+        return;
+      }
+      codes.fill(0);var any=false,lim=Math.min(maxCol+1,row.length);
+      for(var c=0;c<lim;c++){var s=slotOf[c];if(s===undefined)continue;var v=row[c];if(v){codes[s]=addExtra(S,s,v);any=true;}}
+      if(any)pushRow(S,codes);
+    }
+    progress('rows',0,{records:0},true);
+    while(pos<file.size){
+      var ab=await file.slice(pos,pos+CH).arrayBuffer();pos+=ab.byteLength;
+      var t=td.decode(new Uint8Array(ab),{stream:true});
+      if(first){if(t.charCodeAt(0)===0xFEFF)t=t.slice(1);D=detectDelim(t).charCodeAt(0);first=false;}
+      buf=buf?buf+t:t;
+      var used=csvParse(buf,false,D,P,onRow);
+      buf=buf.slice(used);
+      if(buf.length>64*1024*1024)throw new Fail('READ');
+      progress('rows',pos/file.size,{records:S.n});
+    }
+    buf+=td.decode();
+    if(buf.length)csvParse(buf,true,D,P,onRow);
+    if(!header||S.n===0)throw new Fail('EMPTY');
+    S.sheetsUsed=[];
+    return S;
+  }
+
+  /* ---------- index: one lower-cased copy of each distinct description ---------- */
+  function buildIndex(S){
+    var n=S.n,rows=S.rows,sstLen=S.sst?S.sst.length:0;
+    var sstEnt=new Int32Array(sstLen),exEnt=new Int32Array(S.extras.length),rowEntry=new Int32Array(n);
+    var entryCode=new Int32Array(Math.max(1024,Math.min(n,1<<20))),E=0;
+    for(var r=0;r<n;r++){
+      var code=rows[r*6],e,isNew=false;
+      if(code<0&&(-code-1)>=sstLen)code=0;
+      if(code<0){var k=-code-1;e=sstEnt[k]-1;if(e<0){e=E++;sstEnt[k]=e+1;isNew=true;}}
+      else{e=exEnt[code]-1;if(e<0){e=E++;exEnt[code]=e+1;isNew=true;}}
+      if(isNew){
+        if(E>entryCode.length){var b=new Int32Array(entryCode.length*2);b.set(entryCode);entryCode=b;}
+        entryCode[e]=code;
+      }
+      rowEntry[r]=e;
+    }
+    sstEnt=null;exEnt=null;
+    var offsets=new Int32Array(E+1),segs=[],parts=[],len=0,e0=0,SEG=1<<24;
+    for(var x=0;x<E;x++){
+      var t=val(S,entryCode[x]).toLowerCase();
+      if(t.indexOf('\u0001')>=0)t=t.replace(/\u0001/g,' ');
+      offsets[x]=len;parts.push(t);len+=t.length+1;
+      if(len>=SEG){segs.push({hay:parts.join('\u0001')+'\u0001',e0:e0,e1:x+1});parts=[];len=0;e0=x+1;}
+      if((x&16383)===0)progress('index',x/E,{records:n});
+    }
+    if(parts.length)segs.push({hay:parts.join('\u0001')+'\u0001',e0:e0,e1:E});
+    S.idx={rowEntry:rowEntry,offsets:offsets,segs:segs,E:E};
+    S.maps=null;
+  }
+
+  async function load(file){
+    if(!file)throw new Fail('NO_FILE');
+    if(file.size>MAX_BYTES)throw new Fail('SIZE');
+    if(file.size===0)throw new Fail('EMPTY');
+    var nm=String(file.name||'').toLowerCase(),ext=nm.slice(nm.lastIndexOf('.')+1);
+    var head=new Uint8Array(await file.slice(0,8).arrayBuffer());
+    var isZip=head[0]===0x50&&head[1]===0x4b,isOle=head[0]===0xD0&&head[1]===0xCF&&head[2]===0x11&&head[3]===0xE0;
+    if(isOle)throw new Fail('LEGACY');
+    var S,kind;
+    if(isZip){if(ext==='xlsb'||ext==='ods'||ext==='numbers')throw new Fail('FORMAT');S=await loadXlsx(file);kind='xlsx';}
+    else if(ext==='csv'||ext==='tsv'||ext==='txt'){S=await loadCsv(file);kind='csv';}
+    else throw new Fail('FORMAT');
+    if(S.n===0)throw new Fail('EMPTY');
+    progress('index',0,{records:S.n},true);
+    buildIndex(S);
+    DB=S;
+    return {records:S.n,sheets:S.sheetsUsed,kind:kind};
+  }
+
+  /* ---------- search ---------- */
+  function findEntry(off,lo,hi,p){hi--;while(lo<hi){var mid=(lo+hi+1)>>1;if(off[mid]<=p)lo=mid;else hi=mid-1;}return lo;}
+  function search(q,mode,pageSize){
+    if(!DB)throw new Fail('NO_FILE');
+    var t0=performance.now();
+    var raw=String(q||'').replace(/\u0001/g,' ').trim().split(/\s+/).filter(Boolean);
+    var seen={},kws=[];
+    raw.forEach(function(w){var l=w.toLowerCase();if(!seen[l]){seen[l]=1;kws.push(l);}});
+    if(!kws.length)throw new Fail('EMPTY_QUERY');
+    var order=kws.slice().sort(function(a,b){return b.length-a.length;});
+    var I=DB.idx,off=I.offsets,hit=new Uint8Array(I.E);
+    for(var s=0;s<I.segs.length;s++){
+      var sg=I.segs[s],hay=sg.hay,p,e,end;
+      if(mode==='any'){
+        for(var w=0;w<order.length;w++){
+          p=hay.indexOf(order[w]);
+          while(p>=0){e=findEntry(off,sg.e0,sg.e1,p);hit[e]=1;end=e+1<sg.e1?off[e+1]:hay.length;p=hay.indexOf(order[w],end);}
+        }
+      }else{
+        var k0=order[0],rest=order.slice(1);
+        p=hay.indexOf(k0);
+        while(p>=0){
+          e=findEntry(off,sg.e0,sg.e1,p);
+          end=e+1<sg.e1?off[e+1]-1:hay.length-1;
+          if(!hit[e]){
+            var ok=true;
+            if(rest.length){var txt=hay.substring(off[e],end);for(var r=0;r<rest.length;r++){if(txt.indexOf(rest[r])<0){ok=false;break;}}}
+            if(ok)hit[e]=1;
+          }
+          p=hay.indexOf(k0,end+1);
+        }
+      }
+    }
+    var re=I.rowEntry,n=DB.n,cnt=0,i;
+    for(i=0;i<n;i++)if(hit[re[i]])cnt++;
+    var res=new Int32Array(cnt),j=0;
+    for(i=0;i<n;i++)if(hit[re[i]])res[j++]=i;
+    lastRows=res;
+    var out=getPage(1,pageSize);
+    out.type='result';out.ms=Math.round(performance.now()-t0);out.keywords=kws;out.mode=mode==='any'?'any':'all';
+    return out;
+  }
+  function getPage(page,size){
+    if(!DB||!lastRows)throw new Fail('NO_FILE');
+    size=Math.max(10,Math.min(1000,size|0||100));
+    var total=lastRows.length,pages=Math.max(1,Math.ceil(total/size));
+    page=Math.min(Math.max(1,page|0),pages);
+    var s=(page-1)*size,e=Math.min(total,s+size),rows=[],R=DB.rows;
+    for(var i=s;i<e;i++){var o=lastRows[i]*6;rows.push([val(DB,R[o]),val(DB,R[o+1]),val(DB,R[o+2]),val(DB,R[o+3]),val(DB,R[o+4]),val(DB,R[o+5])]);}
+    return {type:'page',page:page,pages:pages,pageSize:size,total:total,start:s,rows:rows};
+  }
+}
+</script>
+
+<script>
+/* ===================== UI ===================== */
+(function(){
+  'use strict';
+  var $=function(id){return document.getElementById(id);};
+  var MAX_MB=350;
+  var engine=null,state='idle',current=null,lastQuery=null,view={page:1,pages:1};
+  var nf=new Intl.NumberFormat('en-IN');
+
+  var MSG={
+    NO_FILE:'No file uploaded. Upload the Exception Salvaging Base file first, then search.',
+    FORMAT:'Unsupported file format. Upload the Exception Salvaging Base as an .xlsx or .csv file.',
+    LEGACY:'This file is an older .xls workbook or is password-protected. Open it in Excel, remove any password and save it as .xlsx or .csv, then upload again.',
+    SIZE:'The file exceeds the supported size of '+MAX_MB+' MB. Remove unused sheets or columns, or save only the data sheet as .csv, then upload again.',
+    READ:'The file cannot be read. It may be damaged, still downloading, or not a real Excel/CSV file. Re-export it from Excel and try again.',
+    EMPTY:'The file contains no records. Check that the data rows sit directly under the header row.',
+    MEMORY:'The browser ran out of memory while processing this file. Close other tabs and try again, or save a copy with only the six required columns as .csv.',
+    BROWSER:'This browser cannot open large .xlsx files. Use the latest Chrome or Edge, or save the file as .csv.',
+    PROCESS:'Processing failed. Upload the file again. If it keeps failing, re-save it from Excel as .xlsx or .csv.',
+    EMPTY_QUERY:'The search field is empty. Enter one or more Product Description keywords.',
+    BUSY:'The file is still being processed. Search will be available as soon as the records are loaded.'
+  };
+  var STAGE={open:'Reading workbook structure',headers:'Checking column headers',rows:'Loading records',text:'Reading product descriptions',index:'Building search index'};
+
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function fmtSize(b){return b>=1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';}
+  function fmtTime(ms){return ms<1000?ms+' ms':(ms/1000).toFixed(1)+' s';}
+
+  /* ---- engine bootstrap: worker first, page fallback ---- */
+  var workerUrl=null;
+  function createWorker(){
+    return new Promise(function(resolve){
+      var w;
+      try{
+        if(!workerUrl)workerUrl=URL.createObjectURL(new Blob(['('+engineMain.toString()+')(self);'],{type:'text/javascript'}));
+        w=new Worker(workerUrl);
+      }catch(e){resolve(null);return;}
+      var timer=setTimeout(function(){try{w.terminate();}catch(e){}resolve(null);},3000);
+      w.onmessage=function(ev){
+        if(ev.data&&ev.data.type==='pong'){
+          clearTimeout(timer);
+          w.onmessage=function(e2){onMsg(e2.data);};
+          w.onerror=function(e2){if(e2&&e2.preventDefault)e2.preventDefault();onMsg({type:'error',op:state==='loading'?'load':'search',code:'PROCESS'});};
+          resolve({kind:'worker',send:function(m){w.postMessage(m);},kill:function(){w.terminate();}});
+        }
+      };
+      w.onerror=function(ev){if(ev&&ev.preventDefault)ev.preventDefault();clearTimeout(timer);try{w.terminate();}catch(e){}resolve(null);};
+      w.postMessage({type:'ping'});
+    });
+  }
+  function createInline(){
+    var ctx={postMessage:function(m){setTimeout(function(){onMsg(m);},0);},onmessage:null};
+    engineMain(ctx);
+    return {kind:'inline',send:function(m){setTimeout(function(){ctx.onmessage({data:m});},0);},kill:function(){}};
+  }
+  async function freshEngine(){
+    if(engine&&engine.kind==='worker'){engine.kill();engine=null;}
+    if(engine&&engine.kind==='inline')return engine;
+    engine=(await createWorker())||createInline();
+    return engine;
+  }
+
+  /* ---- upload status ---- */
+  function setStatus(kind,title,subHtml,metaHtml){
+    var st=$('status');st.className='status'+(kind?' '+kind:'');
+    $('stTitle').textContent=title;
+    $('stSub').innerHTML=subHtml||'';
+    var meta=$('stMeta');if(metaHtml){meta.innerHTML=metaHtml;meta.hidden=false;}else{meta.hidden=true;meta.innerHTML='';}
+  }
+  function setProgress(frac){
+    var p=$('prog'),b=$('progBar');
+    if(frac==null){p.hidden=true;p.classList.remove('indet');return;}
+    p.hidden=false;
+    if(frac<0){p.classList.add('indet');b.style.width='';}
+    else{p.classList.remove('indet');b.style.width=Math.max(2,Math.min(100,frac*100)).toFixed(1)+'%';}
+  }
+
+  function showSearchAlert(text,warn){var a=$('searchAlert');a.textContent=text;a.className='alert'+(warn?' warn':'');a.hidden=false;}
+  function clearSearchAlert(){$('searchAlert').hidden=true;}
+
+  function startLoad(file){
+    if(!file)return;
+    var nm=file.name||'file',ext=nm.toLowerCase().split('.').pop();
+    clearSearchAlert();
+    if(['xlsx','xlsm','csv','tsv','txt'].indexOf(ext)<0){
+      failLoad(nm,ext==='xls'?MSG.LEGACY:MSG.FORMAT);return;
+    }
+    if(file.size>MAX_MB*1048576){failLoad(nm,MSG.SIZE);return;}
+    if(file.size===0){failLoad(nm,MSG.EMPTY);return;}
+    state='loading';current={name:nm,size:file.size};lastQuery=null;
+    $('results').hidden=true;
+    $('uploadBtn').disabled=true;$('searchBtn').disabled=true;
+    setStatus('busy','Processing file…','<span class="fname">'+esc(nm)+'</span> · '+fmtSize(file.size)+' · Validating columns');
+    setProgress(-1);
+    freshEngine().then(function(en){en.send({type:'load',file:file});},function(){failLoad(nm,MSG.PROCESS);});
+  }
+  function failLoad(name,text){
+    state='idle';current=null;lastQuery=null;
+    $('results').hidden=true;
+    $('uploadBtn').disabled=false;$('searchBtn').disabled=false;
+    setProgress(null);
+    setStatus('err',"File couldn't be loaded",(name?'<span class="fname">'+esc(name)+'</span><br>':'')+esc(text));
+  }
+
+  function onMsg(m){
+    if(!m)return;
+    if(m.type==='progress'){
+      if(state!=='loading')return;
+      var d=m.detail||{},parts=[STAGE[m.stage]||'Processing'];
+      if(d.sheet)parts.push('sheet “'+esc(d.sheet)+'”');
+      if(d.records!=null&&m.stage!=='open'&&m.stage!=='headers')parts.push('<span class="big-count">'+nf.format(d.records)+'</span> records read');
+      var pct=m.frac!=null&&m.stage!=='open'&&m.stage!=='headers'?Math.floor(m.frac*100):null;
+      setStatus('busy','Processing file…'+(pct!=null?' '+pct+'%':''),'<span class="fname">'+esc(current.name)+'</span> · '+fmtSize(current.size)+'<br>'+parts.join(' · '));
+      setProgress(pct==null?-1:m.frac);
+      return;
+    }
+    if(m.type==='loaded'){
+      state='ready';current.ready=true;current.records=m.records;
+      $('uploadBtn').disabled=false;$('searchBtn').disabled=false;
+      setProgress(null);
+      var meta=['<span>'+fmtSize(current.size)+'</span>','<span>Processed in '+fmtTime(m.ms)+'</span>'];
+      if(m.sheets&&m.sheets.length){
+        meta.push('<span>'+(m.sheets.length>1?'Sheets':'Sheet')+': '+m.sheets.map(function(s){return esc(s.name)+(m.sheets.length>1?' ('+nf.format(s.records)+')':'');}).join(', ')+'</span>');
+      }
+      meta.push('<span>'+(engine&&engine.kind==='worker'?'Background processing':'In-page processing')+'</span>');
+      setStatus('ok','File uploaded successfully','<span class="fname">'+esc(current.name)+'</span><br><span class="big-count">'+nf.format(m.records)+'</span> records loaded successfully',meta.join(''));
+      $('uploadBtn').lastChild.nodeValue=' Upload Different File';
+      var q=$('q').value.trim();
+      if(q)runSearch();else $('q').focus();
+      return;
+    }
+    if(m.type==='result'){renderResult(m);return;}
+    if(m.type==='page'){renderPage(m);return;}
+    if(m.type==='error'){
+      if(m.op==='load'){
+        var text=MSG[m.code]||MSG.PROCESS;
+        if(m.code==='MISSING'&&m.extra){
+          text='Required column'+(m.extra.missing.length>1?'s':'')+' missing: '+m.extra.missing.map(function(c){return '“'+c+'”';}).join(', ')+'.'+
+               (m.extra.sheet?' Closest match was sheet “'+m.extra.sheet+'”.':'')+' Column headers must match the Exception Salvaging Base exactly.';
+        }
+        failLoad(current?current.name:'',text);
+      }else{
+        $('searchBtn').disabled=false;
+        showSearchAlert(MSG[m.code]||MSG.PROCESS);
+      }
+    }
+  }
+
+  /* ---- search ---- */
+  function mode(){return $('modeAny').checked?'any':'all';}
+  function pageSize(){return parseInt($('pgSize').value,10)||100;}
+  function runSearch(){
+    clearSearchAlert();
+    var q=$('q').value.replace(/\s+/g,' ').trim();
+    if(state==='loading'){showSearchAlert(MSG.BUSY,true);return;}
+    if(state!=='ready'){showSearchAlert(MSG.NO_FILE);return;}
+    if(!q){showSearchAlert(MSG.EMPTY_QUERY);$('q').focus();return;}
+    lastQuery=q;
+    $('searchBtn').disabled=true;
+    engine.send({type:'search',query:q,mode:mode(),pageSize:pageSize()});
+  }
+  var hlRe=null;
+  function buildHighlighter(kws){
+    var parts=kws.slice().sort(function(a,b){return b.length-a.length;}).map(function(k){return k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');});
+    hlRe=parts.length?new RegExp(parts.join('|'),'gi'):null;
+  }
+  function highlight(text){
+    if(!hlRe||!text)return esc(text);
+    var out='',last=0,m;hlRe.lastIndex=0;
+    while((m=hlRe.exec(text))!==null){
+      if(!m[0]){hlRe.lastIndex++;continue;}
+      out+=esc(text.slice(last,m.index))+'<mark>'+esc(m[0])+'</mark>';last=hlRe.lastIndex;
+    }
+    return out+esc(text.slice(last));
+  }
+  function renderResult(m){
+    $('searchBtn').disabled=false;
+    buildHighlighter(m.keywords);
+    $('results').hidden=false;
+    if(m.total===0){
+      $('resTitle').innerHTML='No matching records found.';
+      $('noResults').hidden=false;$('tableArea').hidden=true;
+      $('noResHint').textContent=m.mode==='all'&&m.keywords.length>1?'No description contains all of these keywords. Try fewer keywords, or switch Match to “Any keyword”.':'Check the spelling, or try a shorter part of the word.';
+    }else{
+      $('resTitle').innerHTML='Search Results: <span class="big-count">'+nf.format(m.total)+'</span> record'+(m.total===1?'':'s')+' found';
+      $('noResults').hidden=true;$('tableArea').hidden=false;
+      renderPage(m);
+    }
+    $('resChips').innerHTML=m.keywords.map(function(k){return '<span class="chip">'+esc(k)+'</span>';}).join('')+
+      '<span class="hint">'+(m.mode==='any'?'any keyword':'all keywords')+' · '+fmtTime(m.ms)+'</span>';
+  }
+  function cell(v,cls){return '<td'+(cls?' class="'+cls+'"':'')+'>'+(v===''?'<span class="blank">—</span>':esc(v))+'</td>';}
+  function renderPage(m){
+    view.page=m.page;view.pages=m.pages;
+    var html=new Array(m.rows.length);
+    for(var i=0;i<m.rows.length;i++){
+      var r=m.rows[i];
+      html[i]='<tr><td class="desc">'+(r[0]===''?'<span class="blank">—</span>':highlight(r[0]))+'</td>'+
+        cell(r[1],'cat')+cell(r[2],'awb')+cell(r[3])+cell(r[4],'num')+
+        '<td>'+(r[5]===''?'<span class="blank">—</span>':'<span class="pill">'+esc(r[5])+'</span>')+'</td></tr>';
+    }
+    $('tbody').innerHTML=html.join('');
+    $('tableWrap').scrollTop=0;
+    var from=m.total?m.start+1:0,to=m.start+m.rows.length;
+    $('pgInfo').textContent='Showing '+nf.format(from)+'–'+nf.format(to)+' of '+nf.format(m.total);
+    $('pgNum').textContent='Page '+nf.format(m.page)+' of '+nf.format(m.pages);
+    $('pgFirst').disabled=$('pgPrev').disabled=m.page<=1;
+    $('pgNext').disabled=$('pgLast').disabled=m.page>=m.pages;
+  }
+  function goPage(p){if(state!=='ready'||!lastQuery)return;engine.send({type:'page',page:p,pageSize:pageSize()});}
+
+  /* ---- wiring ---- */
+  $('uploadBtn').addEventListener('click',function(){$('fileInput').click();});
+  $('fileInput').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];e.target.value='';startLoad(f);});
+  var drop=$('drop');
+  ['dragenter','dragover'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();if(state!=='loading')drop.classList.add('drag');});});
+  ['dragleave','drop'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove('drag');});});
+  drop.addEventListener('drop',function(e){
+    if(state==='loading')return;
+    var fl=e.dataTransfer&&e.dataTransfer.files;
+    if(!fl||!fl.length){failLoad('',MSG.NO_FILE);return;}
+    startLoad(fl[0]);
+  });
+  window.addEventListener('dragover',function(e){e.preventDefault();});
+  window.addEventListener('drop',function(e){e.preventDefault();});
+  $('searchForm').addEventListener('submit',function(e){e.preventDefault();runSearch();});
+  function syncModeHint(){$('modeHint').textContent=mode()==='any'?'“nike shoe” returns descriptions containing nike or shoe.':'“nike shoe” returns descriptions containing both nike and shoe.';}
+  [$('modeAll'),$('modeAny')].forEach(function(r){r.addEventListener('change',function(){syncModeHint();if(lastQuery&&state==='ready')runSearch();});});
+  $('pgSize').addEventListener('change',function(){goPage(1);});
+  $('pgFirst').addEventListener('click',function(){goPage(1);});
+  $('pgPrev').addEventListener('click',function(){goPage(view.page-1);});
+  $('pgNext').addEventListener('click',function(){goPage(view.page+1);});
+  $('pgLast').addEventListener('click',function(){goPage(view.pages);});
+  window.addEventListener('error',function(e){if(e&&e.preventDefault)e.preventDefault();if(state==='loading')failLoad(current&&current.name,MSG.PROCESS);return true;});
+  window.addEventListener('unhandledrejection',function(e){if(e&&e.preventDefault)e.preventDefault();});
+  syncModeHint();
+})();
+</script>
+</body>
+</html>
