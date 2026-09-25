@@ -128,6 +128,14 @@ button,input,select{font:inherit;color:inherit}
 .seg input:checked+span{background:var(--ink);color:var(--card)}
 .seg input:focus-visible+span{outline:2px solid var(--red);outline-offset:-2px}
 .match-label{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-right:8px}
+.awb-row{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.awb-row .eyebrow{display:block;margin-bottom:10px}
+#awbQ{width:100%;height:54px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);padding:0 16px 0 48px;font-size:16px;font-weight:500;font-family:var(--mono);letter-spacing:.02em;transition:border-color .15s,box-shadow .15s}
+#awbQ::placeholder{color:var(--muted);font-weight:400;font-family:var(--font);letter-spacing:0}
+#awbQ:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 4px var(--red-tint)}
+#awbBtn{height:54px;padding:0 26px;font-size:14px;flex:0 0 auto}
+.chip.miss{background:var(--red-tint);color:var(--red)}
+td.awb.lead{font-weight:700;font-size:13px}
 .alert{margin-top:12px;padding:10px 14px;border-radius:10px;background:var(--red-tint);border:1px solid var(--red-line);color:var(--ink);font-size:13.5px;font-weight:500}
 .alert.warn{background:var(--warn-tint);border-color:transparent}
 
@@ -181,7 +189,7 @@ tbody tr.combo td:first-child{box-shadow:inset 4px 0 0 var(--combo)}
   .card{padding:16px}
   .brand-div{display:none}
   .brand{flex-direction:column;align-items:flex-start;gap:6px}
-  #searchBtn{width:100%}
+  #searchBtn,#awbBtn{width:100%}
   .drop .btn{width:100%}
 }
 @media (prefers-reduced-motion:reduce){
@@ -260,6 +268,17 @@ tbody tr.combo td:first-child{box-shadow:inset 4px 0 0 var(--combo)}
       </div>
       <span class="hint" id="modeHint">“nike shoe” returns descriptions containing both nike and shoe.</span>
     </div>
+    <div class="awb-row">
+      <label class="eyebrow" for="awbQ">SEARCH AWB NUMBER</label>
+      <form class="search-row" id="awbForm" autocomplete="off">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M10 10v4M13 10v4M16 10v4"/></svg>
+          <input id="awbQ" type="search" placeholder="Enter AWB number, e.g. SF3112406136NER" aria-label="AWB number" spellcheck="false">
+        </div>
+        <button class="btn btn-primary" id="awbBtn" type="submit">SEARCH AWB</button>
+      </form>
+      <div class="search-foot"><span class="hint">Exact AWB match, not case-sensitive. Paste several AWBs separated by spaces, commas or new lines to look them up together.</span></div>
+    </div>
     <div class="alert" id="searchAlert" hidden></div>
   </section>
 
@@ -277,8 +296,8 @@ tbody tr.combo td:first-child{box-shadow:inset 4px 0 0 var(--combo)}
       <div class="legend"><span><i></i>Combo shipment: one AWB mapped to multiple product descriptions</span></div>
       <div class="table-wrap" id="tableWrap">
         <table>
-          <colgroup><col class="c-desc"><col class="c-cat"><col class="c-awb"><col class="c-dc"><col class="c-age"><col class="c-type"><col class="c-pend"><col class="c-bkt"><col class="c-rem"></colgroup>
-          <thead><tr>
+          <colgroup id="cols"><col class="c-desc"><col class="c-cat"><col class="c-awb"><col class="c-dc"><col class="c-age"><col class="c-type"><col class="c-pend"><col class="c-bkt"><col class="c-rem"></colgroup>
+          <thead><tr id="headRow">
             <th scope="col">Product Description</th><th scope="col">Product Category</th><th scope="col">AWB Number</th>
             <th scope="col">DC Liability</th><th scope="col">Ageing</th><th scope="col">File Type</th>
             <th scope="col">Central Pendency</th><th scope="col">Central Bucket</th><th scope="col">Combo Remarks</th>
@@ -331,11 +350,12 @@ function engineMain(ctx){
     try{
       if(m.type==='ping'){post({type:'pong'});return;}
       if(m.type==='load'){
-        DB=null;lastRows=null;
+        DB=null;lastRows=null;awbIndex=null;
         var t0=Date.now(); var res=await load(m.file);
         res.type='loaded'; res.ms=Date.now()-t0; post(res); return;
       }
       if(m.type==='search'){post(search(m.query,m.mode,m.pageSize));return;}
+      if(m.type==='awb'){post(searchAwb(m.query,m.pageSize));return;}
       if(m.type==='page'){post(getPage(m.page,m.pageSize));return;}
     }catch(err){
       var code='PROCESS',extra=null;
@@ -880,7 +900,41 @@ function engineMain(ctx){
     }
     lastRows=j<cnt?res.slice(0,j):res;
     var out=getPage(1,pageSize);
-    out.type='result';out.ms=Math.round(performance.now()-t0);out.keywords=kws;out.mode=mode==='any'?'any':'all';
+    out.type='result';out.kind='desc';out.ms=Math.round(performance.now()-t0);out.keywords=kws;out.mode=mode==='any'?'any':'all';
+    out.exHits=exHits;out.cbHits=cbHits;out.comboHits=comboHits;
+    return out;
+  }
+  /* AWB lookup: exact match, case-insensitive, one or more AWBs separated by space/comma/new line */
+  var awbIndex=null;
+  function normAwb(s){return String(s).trim().toUpperCase();}
+  function searchAwb(q,pageSize){
+    if(!DB)throw new Fail('NO_FILE');
+    var t0=performance.now();
+    var list=[],seenQ={};
+    String(q||'').split(/[\s,;]+/).forEach(function(w){var k=normAwb(w);if(k&&!seenQ[k]){seenQ[k]=1;list.push(k);}});
+    if(!list.length)throw new Fail('EMPTY_AWB');
+    var C=DB.combo,R=DB.rows,n=DB.n,i;
+    if(!awbIndex){
+      awbIndex=new Map();
+      for(i=0;i<n;i++){var a0=C.rowAwb[i];if(a0<0)continue;var key=normAwb(val(DB,R[i*NS+2]));if(!awbIndex.has(key))awbIndex.set(key,a0);}
+    }
+    var want=new Map(),found=[],notFound=[];
+    list.forEach(function(k,ix){var id=awbIndex.get(k);if(id===undefined)notFound.push(k);else if(!want.has(id)){want.set(id,ix);found.push(k);}});
+    var buckets=list.map(function(){return [];}),exDesc=new Set(),exHits=0,cbHits=0,comboHits=0;
+    for(i=0;i<n;i++){
+      var a=C.rowAwb[i];if(a<0||!want.has(a))continue;
+      var d=val(DB,R[i*NS]);
+      if(DB.src[i]===0){exDesc.add(a+'\u0001'+d);exHits++;}
+      else{if(exDesc.has(a+'\u0001'+d))continue;cbHits++;}
+      if(C.isCombo[a])comboHits++;
+      buckets[want.get(a)].push(i);
+    }
+    var total=0;buckets.forEach(function(b){total+=b.length;});
+    var res=new Int32Array(total),j=0;
+    buckets.forEach(function(b){for(var x=0;x<b.length;x++)res[j++]=b[x];});
+    lastRows=res;
+    var out=getPage(1,pageSize);
+    out.type='result';out.kind='awb';out.ms=Math.round(performance.now()-t0);out.keywords=found;out.notFound=notFound;
     out.exHits=exHits;out.cbHits=cbHits;out.comboHits=comboHits;
     return out;
   }
@@ -912,7 +966,7 @@ function engineMain(ctx){
   'use strict';
   var $=function(id){return document.getElementById(id);};
   var MAX_MB=350;
-  var engine=null,state='idle',current=null,lastQuery=null,view={page:1,pages:1};
+  var engine=null,state='idle',current=null,lastQuery=null,lastKind='desc',view={page:1,pages:1};
   var nf=new Intl.NumberFormat('en-IN');
 
   var MSG={
@@ -926,6 +980,7 @@ function engineMain(ctx){
     BROWSER:'This browser cannot open large .xlsx files. Use the latest Chrome or Edge, or save the file as .csv.',
     PROCESS:'Processing failed. Upload the file again. If it keeps failing, re-save it from Excel as .xlsx or .csv.',
     EMPTY_QUERY:'The search field is empty. Enter one or more Product Description keywords.',
+    EMPTY_AWB:'The AWB field is empty. Enter an AWB number to search.',
     BUSY:'The file is still being processed. Search will be available as soon as the records are loaded.'
   };
   var STAGE={open:'Reading workbook structure',headers:'Checking column headers',rows:'Loading records',text:'Reading product descriptions',index:'Building search index'};
@@ -997,7 +1052,7 @@ function engineMain(ctx){
     if(file.size===0){failLoad(nm,MSG.EMPTY);return;}
     state='loading';current={name:nm,size:file.size};lastQuery=null;
     $('results').hidden=true;
-    $('uploadBtn').disabled=true;$('searchBtn').disabled=true;
+    $('uploadBtn').disabled=true;$('searchBtn').disabled=true;$('awbBtn').disabled=true;
     setStatus('busy','Processing file…','<span class="fname">'+esc(nm)+'</span> · '+fmtSize(file.size)+' · Validating columns');
     setProgress(-1);
     freshEngine().then(function(en){en.send({type:'load',file:file});},function(){failLoad(nm,MSG.PROCESS);});
@@ -1005,7 +1060,7 @@ function engineMain(ctx){
   function failLoad(name,text){
     state='idle';current=null;lastQuery=null;
     $('results').hidden=true;
-    $('uploadBtn').disabled=false;$('searchBtn').disabled=false;
+    $('uploadBtn').disabled=false;$('searchBtn').disabled=false;$('awbBtn').disabled=false;
     setProgress(null);
     setStatus('err',"File couldn't be loaded",(name?'<span class="fname">'+esc(name)+'</span><br>':'')+esc(text));
   }
@@ -1024,7 +1079,7 @@ function engineMain(ctx){
     }
     if(m.type==='loaded'){
       state='ready';current.ready=true;current.records=m.records;
-      $('uploadBtn').disabled=false;$('searchBtn').disabled=false;
+      $('uploadBtn').disabled=false;$('searchBtn').disabled=false;$('awbBtn').disabled=false;
       setProgress(null);
       var meta=['<span>'+fmtSize(current.size)+'</span>','<span>Processed in '+fmtTime(m.ms)+'</span>'];
       meta.push('<span>Exception Base: '+nf.format(m.exRecords)+'</span>');
@@ -1048,7 +1103,7 @@ function engineMain(ctx){
         }
         failLoad(current?current.name:'',text);
       }else{
-        $('searchBtn').disabled=false;
+        $('searchBtn').disabled=false;$('awbBtn').disabled=false;
         showSearchAlert(MSG[m.code]||MSG.PROCESS);
       }
     }
@@ -1063,9 +1118,32 @@ function engineMain(ctx){
     if(state==='loading'){showSearchAlert(MSG.BUSY,true);return;}
     if(state!=='ready'){showSearchAlert(MSG.NO_FILE);return;}
     if(!q){showSearchAlert(MSG.EMPTY_QUERY);$('q').focus();return;}
-    lastQuery=q;
-    $('searchBtn').disabled=true;
+    lastQuery=q;lastKind='desc';
+    $('searchBtn').disabled=true;$('awbBtn').disabled=true;
     engine.send({type:'search',query:q,mode:mode(),pageSize:pageSize()});
+  }
+  function runAwbSearch(){
+    clearSearchAlert();
+    var q=$('awbQ').value.trim();
+    if(state==='loading'){showSearchAlert(MSG.BUSY,true);return;}
+    if(state!=='ready'){showSearchAlert(MSG.NO_FILE);return;}
+    if(!q){showSearchAlert(MSG.EMPTY_AWB);$('awbQ').focus();return;}
+    lastQuery=q;lastKind='awb';
+    $('searchBtn').disabled=true;$('awbBtn').disabled=true;
+    engine.send({type:'awb',query:q,pageSize:pageSize()});
+  }
+  var COLS={
+    desc:{cols:['desc','cat','awb','dc','age','type','pend','bkt','rem'],
+          head:['Product Description','Product Category','AWB Number','DC Liability','Ageing','File Type','Central Pendency','Central Bucket','Combo Remarks']},
+    awb:{cols:['awb','desc','cat','dc','age','type','pend','bkt','rem'],
+          head:['AWB Number','Product Description','Product Category','DC Liability','Ageing','File Type','Central Pendency','Central Bucket','Combo Remarks']}
+  };
+  var shownKind=null;
+  function setColumns(kind){
+    if(shownKind===kind)return;shownKind=kind;
+    var c=COLS[kind];
+    $('cols').innerHTML=c.cols.map(function(k){return '<col class="c-'+k+'">';}).join('');
+    $('headRow').innerHTML=c.head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('');
   }
   var hlRe=null;
   function buildHighlighter(kws){
@@ -1082,20 +1160,23 @@ function engineMain(ctx){
     return out+esc(text.slice(last));
   }
   function renderResult(m){
-    $('searchBtn').disabled=false;
-    buildHighlighter(m.keywords);
+    $('searchBtn').disabled=false;$('awbBtn').disabled=false;
+    var isAwb=m.kind==='awb';
+    if(isAwb)hlRe=null;else buildHighlighter(m.keywords);
+    setColumns(isAwb?'awb':'desc');
     $('results').hidden=false;
     if(m.total===0){
       $('resTitle').innerHTML='No matching records found.';
       $('noResults').hidden=false;$('tableArea').hidden=true;
-      $('noResHint').textContent=m.mode==='all'&&m.keywords.length>1?'No description contains all of these keywords. Try fewer keywords, or switch Match to “Any keyword”.':'Check the spelling, or try a shorter part of the word.';
+      $('noResHint').textContent=isAwb?'This AWB number is not in the Exception Base or the Combo Base. Check the number and try again.':m.mode==='all'&&m.keywords.length>1?'No description contains all of these keywords. Try fewer keywords, or switch Match to “Any keyword”.':'Check the spelling, or try a shorter part of the word.';
     }else{
       $('resTitle').innerHTML='Search Results: <span class="big-count">'+nf.format(m.total)+'</span> record'+(m.total===1?'':'s')+' found';
       $('noResults').hidden=true;$('tableArea').hidden=false;
       renderPage(m);
     }
     $('resChips').innerHTML=m.keywords.map(function(k){return '<span class="chip">'+esc(k)+'</span>';}).join('')+
-      '<span class="hint">'+(m.mode==='any'?'any keyword':'all keywords')+' · '+fmtTime(m.ms)+
+      (isAwb?(m.notFound||[]).map(function(k){return '<span class="chip miss" title="Not found in the file">'+esc(k)+' · not found</span>';}).join(''):'')+
+      '<span class="hint">'+(isAwb?'AWB lookup':(m.mode==='any'?'any keyword':'all keywords'))+' · '+fmtTime(m.ms)+
       (m.total?' · Exception Base '+nf.format(m.exHits)+' · Combo Base '+nf.format(m.cbHits)+' · Combo rows '+nf.format(m.comboHits):'')+'</span>';
   }
   function cell(v,cls){return '<td'+(cls?' class="'+cls+'"':'')+'>'+(v===''?'<span class="blank">—</span>':esc(v))+'</td>';}
@@ -1110,8 +1191,10 @@ function engineMain(ctx){
     var html=new Array(m.rows.length);
     for(var i=0;i<m.rows.length;i++){
       var r=m.rows[i],x=r[8];
-      html[i]='<tr'+(x.combo?' class="combo"':'')+'><td class="desc">'+(r[0]===''?'<span class="blank">—</span>':highlight(r[0]))+'</td>'+
-        cell(r[1],'cat')+cell(r[2],'awb')+cell(r[3])+cell(r[4],'num')+
+      var descTd='<td class="desc">'+(r[0]===''?'<span class="blank">—</span>':highlight(r[0]))+'</td>';
+      html[i]='<tr'+(x.combo?' class="combo"':'')+'>'+
+        (shownKind==='awb'?cell(r[2],'awb lead')+descTd+cell(r[1],'cat'):descTd+cell(r[1],'cat')+cell(r[2],'awb'))+
+        cell(r[3])+cell(r[4],'num')+
         '<td>'+(r[5]===''?'<span class="blank">—</span>':'<span class="pill">'+esc(r[5])+'</span>')+'</td>'+
         '<td>'+(r[6]===''?'<span class="blank">—</span>':'<span class="pend">'+esc(r[6])+'</span>')+'</td>'+
         '<td>'+(r[7]===''?'<span class="blank">—</span>':'<span class="bk bk'+hue(r[7])+'">'+esc(r[7])+'</span>')+'</td>'+
@@ -1142,8 +1225,9 @@ function engineMain(ctx){
   window.addEventListener('dragover',function(e){e.preventDefault();});
   window.addEventListener('drop',function(e){e.preventDefault();});
   $('searchForm').addEventListener('submit',function(e){e.preventDefault();runSearch();});
+  $('awbForm').addEventListener('submit',function(e){e.preventDefault();runAwbSearch();});
   function syncModeHint(){$('modeHint').textContent=mode()==='any'?'“nike shoe” returns descriptions containing nike or shoe.':'“nike shoe” returns descriptions containing both nike and shoe.';}
-  [$('modeAll'),$('modeAny')].forEach(function(r){r.addEventListener('change',function(){syncModeHint();if(lastQuery&&state==='ready')runSearch();});});
+  [$('modeAll'),$('modeAny')].forEach(function(r){r.addEventListener('change',function(){syncModeHint();if(lastQuery&&lastKind==='desc'&&state==='ready')runSearch();});});
   $('pgSize').addEventListener('change',function(){goPage(1);});
   $('pgFirst').addEventListener('click',function(){goPage(1);});
   $('pgPrev').addEventListener('click',function(){goPage(view.page-1);});
