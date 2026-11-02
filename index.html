@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Search the Exception Salvaging Base by product or AWB and record salvaging remarks.">
+<meta name="description" content="Upload the Exception Salvaging Base and search Product Descriptions to find matching AWBs.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23D3182A'/%3E%3Ccircle cx='14' cy='14' r='7' fill='none' stroke='white' stroke-width='3'/%3E%3Cpath d='m19 19 6 6' stroke='white' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <title>Exception Salvaging Dashboard</title>
@@ -70,8 +70,7 @@ button,input,select{font:inherit;color:inherit}
 .unit-tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:5px 12px;white-space:nowrap}
 
 /* Layout */
-.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
-.wrap>*{min-width:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:18px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 22px}
 .card-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
@@ -186,70 +185,11 @@ tbody tr.combo td:first-child{box-shadow:inset 4px 0 0 var(--combo)}
 .pg-label{font-size:12.5px;color:var(--muted)}
 .foot{color:var(--muted);font-size:12px;text-align:center}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-/* ---- central base / admin ---- */
-.top-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.admin-btn{appearance:none;border:1px solid rgba(255,255,255,.7);background:transparent;color:#fff;border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
-.admin-btn:hover{background:rgba(255,255,255,.14)}
-.admin-btn.on{background:#fff;color:var(--red-deep);border-color:#fff}
-.login-row{display:flex;gap:10px;flex-wrap:wrap}
-#adminPw{flex:1 1 260px;min-width:0;height:46px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);padding:0 14px;font-size:15px}
-#adminPw:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 4px var(--red-tint)}
-.admin-zone{display:grid;gap:12px;margin-bottom:2px}
-.admin-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.admin-tools .btn{padding:9px 14px;font-size:12px;letter-spacing:.04em}
-.tools-spacer{flex:1 1 auto}
-.btn-ghost.danger{color:var(--red);border-color:var(--red-line)}
-.confirm{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;font-weight:600;background:var(--red-tint);border-radius:10px;padding:6px 6px 6px 12px}
-.status-actions{margin-top:10px}
-.status-actions .btn{padding:8px 14px;font-size:12px}
-
-/* ---- salvaging columns ---- */
-.res-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;margin-bottom:10px}
-.res-bar .legend{margin-bottom:0}
-.lock-dot{display:inline-block;width:14px;height:14px;border-radius:3px;background:var(--ok-tint);border:1.5px solid var(--ok);vertical-align:-3px;margin-right:6px}
-.who{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
-.who input{width:min(260px,60vw);height:36px;border-radius:8px;border:1.5px solid var(--line);background:var(--card);padding:0 10px;font-size:13.5px;font-weight:500;letter-spacing:0;text-transform:none}
-.who input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-tint)}
-.who.need input{border-color:var(--red);box-shadow:0 0 0 3px var(--red-tint)}
-table{min-width:1680px}
-col.c-desc{width:19%} col.c-cat{width:8%} col.c-awb{width:10%} col.c-dc{width:8%} col.c-age{width:5%} col.c-type{width:6%} col.c-pend{width:8%} col.c-bkt{width:9%} col.c-rem{width:8%} col.c-salv{width:9%} col.c-sdc{width:10%}
-td.salv,td.sdc{vertical-align:middle}
-.sv-sel{width:100%;max-width:140px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:var(--card);padding:0 8px;font-size:13px;font-weight:600;cursor:pointer}
-.sv-sel:focus{outline:none;border-color:var(--red)}
-.sv-stack{display:flex;flex-direction:column;align-items:center;gap:6px}
-.sv-save{appearance:none;border:0;border-radius:8px;background:var(--red);color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
-.sv-save:hover{background:var(--red-deep)}
-.sv-save:disabled{opacity:.5;cursor:wait}
-.sv-cancel{appearance:none;border:0;background:none;color:var(--muted);font-size:11.5px;font-weight:600;cursor:pointer;text-decoration:underline}
-.sv-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;letter-spacing:.08em;padding:4px 10px;border-radius:999px;text-transform:uppercase}
-.sv-badge.yes{background:var(--ok);color:#fff}
-.sv-badge.no{background:var(--line-2);color:var(--ink-2);border:1px solid var(--line)}
-.sv-meta{font-size:11px;color:var(--muted);line-height:1.3}
-.sv-admin{display:flex;gap:8px;justify-content:center}
-.sv-admin button{appearance:none;border:0;background:none;color:var(--red);font-size:11.5px;font-weight:700;cursor:pointer;text-decoration:underline;padding:0}
-.sv-dc{font-weight:700;color:var(--ink)}
-.sv-loading{color:var(--muted);font-size:12px}
-.sv-err{font-size:11px;color:var(--red);font-weight:600}
-.dc-input{width:100%;height:34px;border-radius:8px;border:1.5px solid var(--line);background:var(--card);padding:0 28px 0 8px;font-size:13px;font-weight:600;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 14px) 50%,calc(100% - 9px) 50%;background-size:5px 5px;background-repeat:no-repeat}
-.dc-input:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px var(--red-tint)}
-.dc-input:disabled{opacity:.45;cursor:not-allowed}
-.dc-input.need{border-color:var(--red)}
-.dc-pop{position:fixed;z-index:50;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(30,10,12,.18);max-height:260px;overflow:auto;padding:4px;min-width:200px}
-.dc-opt{padding:7px 10px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--ink)}
-.dc-opt.act,.dc-opt:hover{background:var(--red-tint);color:var(--red)}
-.dc-opt mark{background:transparent;color:inherit;font-weight:800;padding:0}
-.dc-none{padding:8px 10px;font-size:12.5px;color:var(--muted)}
-tr.saved td.salv,tr.saved td.sdc{background:var(--ok-tint)!important}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--card);padding:10px 16px;border-radius:10px;font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:min(560px,calc(100vw - 32px))}
-.toast.err{background:var(--red)}
 @media (max-width:640px){
   .card{padding:16px}
   .brand-div{display:none}
   .brand{flex-direction:column;align-items:flex-start;gap:6px}
   #searchBtn,#awbBtn{width:100%}
-  .tools-spacer{display:none}
-  .who{width:100%}
-  .who input{flex:1;width:auto}
   .drop .btn{width:100%}
 }
 @media (prefers-reduced-motion:reduce){
@@ -268,73 +208,39 @@ tr.saved td.salv,tr.saved td.sdc{background:var(--ok-tint)!important}
         <p>Product Search &amp; Salvaging Pendency Lookup</p>
       </div>
     </div>
-    <div class="top-right">
-      <span class="unit-tag">Middle Mile · Audit &amp; Compliance</span>
-      <button class="admin-btn" id="adminBtn" type="button">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-        <span id="adminBtnText">Admin</span>
-      </button>
-    </div>
+    <span class="unit-tag">Middle Mile · Audit &amp; Compliance</span>
   </div>
 </header>
 
 <main class="wrap">
-  <!-- ADMIN LOGIN -->
-  <section class="card login-card" id="loginCard" hidden aria-labelledby="loginTitle">
-    <div class="card-head"><span class="eyebrow" id="loginTitle">Admin login</span><span class="hint">Only the admin can publish or remove the base file, edit locked remarks and download the salvaged base.</span></div>
-    <form class="login-row" id="loginForm" autocomplete="off">
-      <input id="adminPw" type="password" placeholder="Admin password" aria-label="Admin password" autocomplete="current-password">
-      <button class="btn btn-primary" id="loginBtn" type="submit">Log in</button>
-      <button class="btn btn-ghost" id="loginCancel" type="button">Cancel</button>
-    </form>
-    <div class="alert" id="loginAlert" hidden></div>
-  </section>
-
-  <!-- BASE FILE -->
+  <!-- UPLOAD -->
   <section class="card" aria-labelledby="upTitle">
     <div class="card-head">
-      <span class="eyebrow step" id="upTitle"><b>1</b>Exception Salvaging Base</span>
-      <span class="hint" id="baseHint">Published centrally by the admin · loads automatically for everyone with the link</span>
+      <span class="eyebrow step" id="upTitle"><b>1</b>Upload Exception Salvaging Base</span>
+      <span class="hint">.xlsx or .csv · up to 350 MB · processed on this device, nothing is sent anywhere</span>
     </div>
-    <div class="admin-zone" id="adminZone" hidden>
-      <div class="drop" id="drop">
-        <div class="drop-icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/></svg>
-        </div>
-        <div class="drop-text">
-          <strong>Publish a new Exception Salvaging Base</strong>
-          <span>Replaces the current base for every user. Saved salvaging remarks are kept and show again on matching AWBs. Sheet EXCEPTION BASE: awb_number, Product Description, Product Category, CENTAL PENDENCY, CENTRAL BUCKET, FILE TYPE, CENTRAL AGEING, DC Liability. Sheet COMBO BASE: awb_number, Product Description, product_categories, DC Liability</span>
-        </div>
-        <button class="btn btn-primary" id="uploadBtn" type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/></svg>
-          Upload &amp; Publish
-        </button>
-        <input type="file" id="fileInput" accept=".xlsx,.xlsm,.csv,.tsv,.txt" hidden>
+    <div class="drop" id="drop">
+      <div class="drop-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/><path d="M4 20h16"/></svg>
       </div>
-      <div class="admin-tools">
-        <button class="btn btn-ghost" id="dlYesBtn" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"/><path d="m6 10 6 6 6-6"/><path d="M4 20h16"/></svg>
-          Download salvaged base
-        </button>
-        <button class="btn btn-ghost" id="dlAllBtn" type="button">Download all remarks</button>
-        <span class="tools-spacer"></span>
-        <button class="btn btn-ghost danger" id="removeBtn" type="button">Remove base file</button>
-        <span class="confirm" id="removeConfirm" hidden>
-          <span>Remove the published base for everyone? Saved remarks stay.</span>
-          <button class="btn btn-primary" id="removeYes" type="button">Remove</button>
-          <button class="btn btn-ghost" id="removeNo" type="button">Cancel</button>
-        </span>
+      <div class="drop-text">
+        <strong>Drop the Exception Salvaging Base file here</strong>
+        <span>Sheet EXCEPTION BASE: awb_number, Product Description, Product Category, CENTAL PENDENCY, CENTRAL BUCKET, FILE TYPE, CENTRAL AGEING, DC Liability. Sheet COMBO BASE: awb_number, Product Description, product_categories, DC Liability</span>
       </div>
+      <button class="btn btn-primary" id="uploadBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/></svg>
+        Upload File
+      </button>
+      <input type="file" id="fileInput" accept=".xlsx,.xlsm,.csv,.tsv,.txt" hidden>
     </div>
 
     <div class="status" id="status" role="status" aria-live="polite">
       <span class="dot" aria-hidden="true"></span>
       <div class="status-body">
-        <div class="status-title" id="stTitle">Checking for the base file…</div>
-        <div class="status-sub" id="stSub"></div>
+        <div class="status-title" id="stTitle">No file uploaded</div>
+        <div class="status-sub" id="stSub">Upload the base file to start searching.</div>
         <div class="meta" id="stMeta" hidden></div>
         <div class="progress" id="prog" hidden><i id="progBar"></i></div>
-        <div class="status-actions" id="stActions" hidden><button class="btn btn-ghost" id="retryBtn" type="button">Try again</button></div>
       </div>
     </div>
   </section>
@@ -387,17 +293,15 @@ tr.saved td.salv,tr.saved td.sdc{background:var(--ok-tint)!important}
       <span id="noResHint">Try fewer or shorter keywords, or switch Match to “Any keyword”.</span>
     </div>
     <div id="tableArea">
-      <div class="res-bar">
-        <div class="legend">
-          <span><i></i>Combo shipment: one AWB mapped to multiple product descriptions</span>
-          <span><b class="lock-dot" aria-hidden="true"></b>Saved salvaging remarks are locked; only the admin can change them</span>
-        </div>
-        <label class="who" id="whoWrap"><span>Your name</span><input id="userName" type="text" maxlength="60" placeholder="Recorded with each remark you save" autocomplete="name"></label>
-      </div>
+      <div class="legend"><span><i></i>Combo shipment: one AWB mapped to multiple product descriptions</span></div>
       <div class="table-wrap" id="tableWrap">
         <table>
-          <colgroup id="cols"></colgroup>
-          <thead><tr id="headRow"></tr></thead>
+          <colgroup id="cols"><col class="c-desc"><col class="c-cat"><col class="c-awb"><col class="c-dc"><col class="c-age"><col class="c-type"><col class="c-pend"><col class="c-bkt"><col class="c-rem"></colgroup>
+          <thead><tr id="headRow">
+            <th scope="col">Product Description</th><th scope="col">Product Category</th><th scope="col">AWB Number</th>
+            <th scope="col">DC Liability</th><th scope="col">Ageing</th><th scope="col">File Type</th>
+            <th scope="col">Central Pendency</th><th scope="col">Central Bucket</th><th scope="col">Combo Remarks</th>
+          </tr></thead>
           <tbody id="tbody"></tbody>
         </table>
       </div>
@@ -416,10 +320,8 @@ tr.saved td.salv,tr.saved td.sdc{background:var(--ok-tint)!important}
     </div>
   </section>
 
-  <p class="foot">Values are shown exactly as they appear in the published base file. Search → View matching AWBs → Record salvaging.</p>
+  <p class="foot">Values are shown exactly as they appear in the uploaded file. Upload → Search → View matching AWBs.</p>
 </main>
-<div class="dc-pop" id="dcPop" role="listbox" hidden></div>
-<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
 /* ===================== ENGINE (runs in a Web Worker; falls back to the page) ===================== */
@@ -452,12 +354,6 @@ function engineMain(ctx){
         var t0=Date.now(); var res=await load(m.file);
         res.type='loaded'; res.ms=Date.now()-t0; post(res); return;
       }
-      if(m.type==='loadRemote'){
-        DB=null;lastRows=null;awbIndex=null;
-        var t1=Date.now(); var r2=await loadRemote(m);
-        r2.type='loaded'; r2.ms=Date.now()-t1; r2.remote=true; post(r2); return;
-      }
-      if(m.type==='export'){var gz=await exportCompact();ctx.postMessage({type:'exported',buf:gz,bytes:gz.byteLength},[gz]);return;}
       if(m.type==='search'){post(search(m.query,m.mode,m.pageSize));return;}
       if(m.type==='awb'){post(searchAwb(m.query,m.pageSize));return;}
       if(m.type==='page'){post(getPage(m.page,m.pageSize));return;}
@@ -931,97 +827,6 @@ function engineMain(ctx){
     S.maps=null;
   }
 
-  function stats(S,kind){
-    var exRecords=0,cbRecords=0,combos=0;
-    for(var i=0;i<S.n;i++){if(S.src[i]===0)exRecords++;else cbRecords++;}
-    for(var j=0;j<S.combo.isCombo.length;j++)if(S.combo.isCombo[j])combos++;
-    return {records:S.n,exRecords:exRecords,cbRecords:cbRecords,comboAwbs:combos,comboSheet:S.comboSheet,sheets:S.sheetsUsed,kind:kind};
-  }
-
-  /* ---------- compact base file (what the admin publishes and every viewer downloads) ----------
-     Layout: "ESD1" | u32 header length | header JSON | string pool (UTF-8, NUL-separated) | pad to 4 |
-             Int32 row codes (n x 8 slots, index into pool) | Uint8 source flag per row (0 Exception, 1 Combo).
-     Values are copied exactly; only the eight dashboard columns are kept. The whole thing is gzip-compressed. */
-  async function exportCompact(){
-    if(!DB)throw new Fail('NO_FILE');
-    if(typeof CompressionStream==='undefined')throw new Fail('BROWSER');
-    progress('pack',0,null,true);
-    var n=DB.n,R=DB.rows,total=n*NS,codes=new Int32Array(total),map=new Map(),pool=[''];map.set('',0);
-    for(var i=0;i<total;i++){
-      var s=val(DB,R[i]),id=map.get(s);
-      if(id===undefined){
-        if(s.indexOf('\u0000')>=0){s=s.replace(/\u0000/g,'');id=map.get(s);}
-        if(id===undefined){id=pool.length;pool.push(s);map.set(s,id);}
-      }
-      codes[i]=id;
-      if((i&262143)===0)progress('pack',i/total,null);
-    }
-    map=null;
-    var enc=new TextEncoder(),poolBytes=enc.encode(pool.join('\u0000'));pool=null;
-    var hdr=enc.encode(JSON.stringify({v:1,ns:NS,n:n,poolBytes:poolBytes.length,comboSheet:!!DB.comboSheet,sheets:DB.sheetsUsed||[]}));
-    var pEnd=8+hdr.length+poolBytes.length,rowsOff=pEnd+((4-pEnd%4)%4);
-    var out=new Uint8Array(rowsOff+total*4+n);
-    out.set([69,83,68,49],0);new DataView(out.buffer).setUint32(4,hdr.length,true);
-    out.set(hdr,8);out.set(poolBytes,8+hdr.length);poolBytes=null;
-    out.set(new Uint8Array(codes.buffer,0,total*4),rowsOff);codes=null;
-    out.set(DB.src.subarray(0,n),rowsOff+total*4);
-    progress('compress',-1,null,true);
-    var gz=await new Response(new Blob([out]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer();
-    return gz;
-  }
-  function parseCompact(ab){
-    var u8=new Uint8Array(ab);
-    if(u8.length<8||u8[0]!==69||u8[1]!==83||u8[2]!==68||u8[3]!==49)throw new Fail('BAD_DATASET');
-    var hlen=new DataView(ab).getUint32(4,true),h;
-    try{h=JSON.parse(new TextDecoder().decode(u8.subarray(8,8+hlen)));}catch(e){throw new Fail('BAD_DATASET');}
-    if(h.v!==1||h.ns!==NS)throw new Fail('BAD_DATASET');
-    var pStart=8+hlen,pEnd=pStart+h.poolBytes,rowsOff=pEnd+((4-pEnd%4)%4),total=h.n*NS;
-    if(rowsOff+total*4+h.n>u8.length)throw new Fail('BAD_DATASET');
-    var pool=new TextDecoder().decode(u8.subarray(pStart,pEnd)).split('\u0000');
-    var rows=new Int32Array(ab,rowsOff,total).slice(),src=new Uint8Array(ab,rowsOff+total*4,h.n).slice();
-    return {rows:rows,src:src,n:h.n,extras:pool,maps:null,sst:null,needed:null,sheetsUsed:h.sheets||[],idx:null,comboSheet:!!h.comboSheet};
-  }
-  function sleep(ms){return new Promise(function(r){setTimeout(r,ms);});}
-  async function loadRemote(m){
-    var urls=m.urls||[],sizes=m.sizes||[],total=0,got=0,next=0,chunks=new Array(urls.length);
-    if(!urls.length)throw new Fail('NO_FILE');
-    if(typeof DecompressionStream==='undefined')throw new Fail('BROWSER');
-    sizes.forEach(function(x){total+=x||0;});
-    progress('download',0,{bytes:0,total:total},true);
-    async function one(i){
-      var res=null;
-      for(var attempt=0;attempt<3;attempt++){
-        try{res=await fetch(urls[i],{credentials:'same-origin'});}catch(e){res=null;}
-        if(res&&res.ok)break;
-        if(res&&res.status===409)throw new Fail('STALE');
-        await sleep(700*(attempt+1));
-      }
-      if(!res||!res.ok)throw new Fail('DOWNLOAD');
-      var reader=res.body.getReader(),parts=[],len=0;
-      for(;;){
-        var r=await reader.read();if(r.done)break;
-        parts.push(r.value);len+=r.value.length;got+=r.value.length;
-        progress('download',total?got/total:0,{bytes:got,total:total});
-      }
-      var buf=new Uint8Array(len),o=0;parts.forEach(function(p){buf.set(p,o);o+=p.length;});
-      chunks[i]=buf;
-    }
-    async function lane(){while(next<urls.length){var i=next++;await one(i);}}
-    var lanes=[];for(var k=0;k<Math.min(4,urls.length);k++)lanes.push(lane());
-    await Promise.all(lanes);
-    progress('unpack',-1,null,true);
-    var ab;
-    try{ab=await new Response(new Blob(chunks).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();}
-    catch(e){throw new Fail('BAD_DATASET');}
-    chunks=null;
-    var S=parseCompact(ab);ab=null;
-    if(!S.n)throw new Fail('EMPTY');
-    progress('index',0,{records:S.n},true);
-    buildIndex(S);
-    DB=S;
-    return stats(S,'remote');
-  }
-
   async function load(file){
     if(!file)throw new Fail('NO_FILE');
     if(file.size>MAX_BYTES)throw new Fail('SIZE');
@@ -1038,7 +843,10 @@ function engineMain(ctx){
     progress('index',0,{records:S.n},true);
     buildIndex(S);
     DB=S;
-    return stats(S,kind);
+    var exRecords=0,cbRecords=0,combos=0;
+    for(var i=0;i<S.n;i++){if(S.src[i]===0)exRecords++;else cbRecords++;}
+    for(var j=0;j<S.combo.isCombo.length;j++)if(S.combo.isCombo[j])combos++;
+    return {records:S.n,exRecords:exRecords,cbRecords:cbRecords,comboAwbs:combos,comboSheet:S.comboSheet,sheets:S.sheetsUsed,kind:kind};
   }
 
   /* ---------- search ---------- */
@@ -1157,73 +965,29 @@ function engineMain(ctx){
 (function(){
   'use strict';
   var $=function(id){return document.getElementById(id);};
-  var MAX_MB=350, PART=4000000;
+  var MAX_MB=350;
   var engine=null,state='idle',current=null,lastQuery=null,lastKind='desc',view={page:1,pages:1};
   var nf=new Intl.NumberFormat('en-IN');
-  var cfg={dataset:null,dcs:[],salvCount:0};
-  var admin={token:null};
-  var publishing=null; /* {file} while the admin's upload is being published */
-  var pageRows=[];      /* rows on screen: {r:[...], rec, edit} */
 
   var MSG={
-    NO_FILE:'No base file is published yet. The admin needs to upload the Exception Salvaging Base.',
+    NO_FILE:'No file uploaded. Upload the Exception Salvaging Base file first, then search.',
     FORMAT:'Unsupported file format. Upload the Exception Salvaging Base as an .xlsx or .csv file.',
     LEGACY:'This file is an older .xls workbook or is password-protected. Open it in Excel, remove any password and save it as .xlsx or .csv, then upload again.',
-    SIZE:'The file exceeds the supported size of '+MAX_MB+' MB. Remove unused sheets or columns, or save only the data sheets, then upload again.',
+    SIZE:'The file exceeds the supported size of '+MAX_MB+' MB. Remove unused sheets or columns, or save only the data sheet as .csv, then upload again.',
     READ:'The file cannot be read. It may be damaged, still downloading, or not a real Excel/CSV file. Re-export it from Excel and try again.',
     EMPTY:'The file contains no records. Check that the data rows sit directly under the header row.',
-    MEMORY:'The browser ran out of memory while processing this file. Close other tabs and try again.',
-    BROWSER:'This browser cannot open the base file. Use the latest Chrome or Edge.',
-    PROCESS:'Processing failed. Reload the page and try again.',
-    DOWNLOAD:'The base file could not be downloaded. Check your connection and try again.',
-    STALE:'The admin has just published a new base file. Loading the new one…',
-    BAD_DATASET:'The published base file is damaged. The admin needs to upload it again.',
+    MEMORY:'The browser ran out of memory while processing this file. Close other tabs and try again, or save a copy with only the six required columns as .csv.',
+    BROWSER:'This browser cannot open large .xlsx files. Use the latest Chrome or Edge, or save the file as .csv.',
+    PROCESS:'Processing failed. Upload the file again. If it keeps failing, re-save it from Excel as .xlsx or .csv.',
     EMPTY_QUERY:'The search field is empty. Enter one or more Product Description keywords.',
     EMPTY_AWB:'The AWB field is empty. Enter an AWB number to search.',
-    BUSY:'The base file is still loading. Search will be available as soon as the records are loaded.',
-    SETUP_REDIS:'Dashboard storage is not connected yet. Admin: add Upstash Redis to the Vercel project (see README).',
-    SETUP_BLOB:'File storage is not connected yet. Admin: add a Vercel Blob store to the project (see README).',
-    SETUP_ADMIN:'The admin password is not set. Admin: add ADMIN_PASSWORD in the Vercel project settings.',
-    STORE_UNAVAILABLE:'The dashboard storage did not respond. Try again in a moment.',
-    NETWORK:'Could not reach the dashboard server. Check your connection and try again.',
-    SERVER:'Something went wrong on the server. Try again in a moment.'
+    BUSY:'The file is still being processed. Search will be available as soon as the records are loaded.'
   };
-  var STAGE={open:'Reading workbook structure',headers:'Checking column headers',rows:'Loading records',text:'Reading product descriptions',
-             index:'Building search index',download:'Downloading base file',unpack:'Unpacking base file',pack:'Preparing base file for publishing',compress:'Compressing base file'};
+  var STAGE={open:'Reading workbook structure',headers:'Checking column headers',rows:'Loading records',text:'Reading product descriptions',index:'Building search index'};
 
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function fmtSize(b){return b>=1048576?(b/1048576).toFixed(1)+' MB':Math.max(1,Math.round(b/1024))+' KB';}
   function fmtTime(ms){return ms<1000?ms+' ms':(ms/1000).toFixed(1)+' s';}
-  var dtf=new Intl.DateTimeFormat('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:true,timeZone:'Asia/Kolkata'});
-  function fmtDate(iso){try{return dtf.format(new Date(iso));}catch(e){return iso||'';}}
-  function store(k,v){try{if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){}}
-  function load(k){try{return localStorage.getItem(k);}catch(e){return null;}}
-  function sstore(k,v){try{if(v==null)sessionStorage.removeItem(k);else sessionStorage.setItem(k,v);}catch(e){}}
-  function sload(k){try{return sessionStorage.getItem(k);}catch(e){return null;}}
-
-  var toastTimer=null;
-  function toast(text,isErr){
-    var t=$('toast');t.textContent=text;t.className='toast'+(isErr?' err':'');t.hidden=false;
-    clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true;},isErr?6000:3500);
-  }
-
-  /* ---- server calls ---- */
-  async function api(path,opts){
-    opts=opts||{};
-    var headers=Object.assign({},opts.headers||{});
-    if(opts.json!==undefined){headers['Content-Type']='application/json';}
-    if(opts.admin&&admin.token)headers.Authorization='Bearer '+admin.token;
-    var res;
-    try{res=await fetch(path,{method:opts.method||'GET',headers:headers,body:opts.json!==undefined?JSON.stringify(opts.json):opts.body,credentials:'same-origin'});}
-    catch(e){var ne=new Error('NETWORK');ne.code='NETWORK';throw ne;}
-    var data=null;try{data=await res.json();}catch(e){}
-    if(!res.ok){
-      var err=new Error((data&&data.error)||'SERVER');err.code=(data&&data.error)||'SERVER';err.status=res.status;err.data=data;
-      if(res.status===401&&opts.admin&&err.code==='ADMIN_ONLY'){logout(true);}
-      throw err;
-    }
-    return data;
-  }
 
   /* ---- engine bootstrap: worker first, page fallback ---- */
   var workerUrl=null;
@@ -1259,13 +1023,12 @@ function engineMain(ctx){
     return engine;
   }
 
-  /* ---- status ---- */
-  function setStatus(kind,title,subHtml,metaHtml,retry){
+  /* ---- upload status ---- */
+  function setStatus(kind,title,subHtml,metaHtml){
     var st=$('status');st.className='status'+(kind?' '+kind:'');
     $('stTitle').textContent=title;
     $('stSub').innerHTML=subHtml||'';
     var meta=$('stMeta');if(metaHtml){meta.innerHTML=metaHtml;meta.hidden=false;}else{meta.hidden=true;meta.innerHTML='';}
-    $('stActions').hidden=!retry;
   }
   function setProgress(frac){
     var p=$('prog'),b=$('progBar');
@@ -1274,147 +1037,71 @@ function engineMain(ctx){
     if(frac<0){p.classList.add('indet');b.style.width='';}
     else{p.classList.remove('indet');b.style.width=Math.max(2,Math.min(100,frac*100)).toFixed(1)+'%';}
   }
-  function setBusyButtons(busy){
-    $('uploadBtn').disabled=busy;$('searchBtn').disabled=busy;$('awbBtn').disabled=busy;$('removeBtn').disabled=busy;
-  }
+
   function showSearchAlert(text,warn){var a=$('searchAlert');a.textContent=text;a.className='alert'+(warn?' warn':'');a.hidden=false;}
   function clearSearchAlert(){$('searchAlert').hidden=true;}
-  function baseMeta(ds,m){
-    var st=(m||ds&&ds.stats)||{},meta=[];
-    if(ds)meta.push('<span>Published '+esc(fmtDate(ds.uploadedAt))+'</span>');
-    if(st.exRecords!=null)meta.push('<span>Exception Base: '+nf.format(st.exRecords)+'</span>');
-    if(st.cbRecords!=null)meta.push('<span>Combo Base: '+(st.comboSheet?nf.format(st.cbRecords):'sheet not found, combos flagged from repeated AWBs')+'</span>');
-    if(st.comboAwbs!=null)meta.push('<span>Combo AWBs: '+nf.format(st.comboAwbs)+'</span>');
-    meta.push('<span>Salvaging remarks saved: '+nf.format(cfg.salvCount||0)+'</span>');
-    if(m&&m.ms!=null)meta.push('<span>Loaded in '+fmtTime(m.ms)+'</span>');
-    return meta.join('');
-  }
 
-  /* ---- loading the published base ---- */
-  var retryAction=null;
-  async function boot(){
-    state='idle';setProgress(-1);
-    setStatus('busy','Checking for the base file…','');
-    try{cfg=await api('/api/config',{admin:true});}
-    catch(e){setProgress(null);retryAction=boot;setStatus('err',"The dashboard couldn't start",esc(MSG[e.code]||MSG.SERVER),null,true);return;}
-    if(admin.token&&!cfg.admin)logout(true);
-    renderAdmin();
-    if(!cfg.dataset){
-      setProgress(null);state='idle';DBready(false);
-      setStatus('', 'No base file published', esc(isAdmin()?'Upload the Exception Salvaging Base above to publish it for everyone.':MSG.NO_FILE),baseMeta(null));
-      return;
-    }
-    loadPublished();
-  }
-  function loadPublished(){
-    var ds=cfg.dataset;
-    state='loading';current={name:ds.fileName,size:ds.bytes,remote:true};lastQuery=null;
-    $('results').hidden=true;setBusyButtons(true);
-    setStatus('busy','Loading base file…','<span class="fname">'+esc(ds.fileName)+'</span>');
-    setProgress(-1);
-    var urls=[];
-    for(var i=0;i<ds.parts;i++)urls.push(location.origin+'/api/dataset-part?id='+encodeURIComponent(ds.id)+'&i='+i);
-    freshEngine().then(function(en){en.send({type:'loadRemote',urls:urls,sizes:[ds.bytes]});},function(){failLoad(MSG.PROCESS,true);});
-  }
-  function DBready(ok){if(!ok){state='idle';}}
-
-  function failLoad(text,retry){
-    state='idle';lastQuery=null;publishing=null;
-    $('results').hidden=true;setBusyButtons(false);setProgress(null);
-    retryAction=retry?boot:null;
-    setStatus('err',current&&!current.remote?"File couldn't be published":"Base file couldn't be loaded",
-      (current&&current.name?'<span class="fname">'+esc(current.name)+'</span><br>':'')+esc(text),null,!!retry);
-  }
-
-  /* ---- admin: publish ---- */
-  function startPublish(file){
-    if(!file||!isAdmin())return;
+  function startLoad(file){
+    if(!file)return;
     var nm=file.name||'file',ext=nm.toLowerCase().split('.').pop();
-    clearSearchAlert();current={name:nm,size:file.size};
-    if(['xlsx','xlsm','csv','tsv','txt'].indexOf(ext)<0){failLoad(ext==='xls'?MSG.LEGACY:MSG.FORMAT);return;}
-    if(file.size>MAX_MB*1048576){failLoad(MSG.SIZE);return;}
-    if(file.size===0){failLoad(MSG.EMPTY);return;}
-    state='loading';lastQuery=null;publishing={file:file};
-    $('results').hidden=true;setBusyButtons(true);
+    clearSearchAlert();
+    if(['xlsx','xlsm','csv','tsv','txt'].indexOf(ext)<0){
+      failLoad(nm,ext==='xls'?MSG.LEGACY:MSG.FORMAT);return;
+    }
+    if(file.size>MAX_MB*1048576){failLoad(nm,MSG.SIZE);return;}
+    if(file.size===0){failLoad(nm,MSG.EMPTY);return;}
+    state='loading';current={name:nm,size:file.size};lastQuery=null;
+    $('results').hidden=true;
+    $('uploadBtn').disabled=true;$('searchBtn').disabled=true;$('awbBtn').disabled=true;
     setStatus('busy','Processing file…','<span class="fname">'+esc(nm)+'</span> · '+fmtSize(file.size)+' · Validating columns');
     setProgress(-1);
-    freshEngine().then(function(en){en.send({type:'load',file:file});},function(){failLoad(MSG.PROCESS);});
+    freshEngine().then(function(en){en.send({type:'load',file:file});},function(){failLoad(nm,MSG.PROCESS);});
   }
-  async function uploadAndPublish(buf,stats){
-    var id=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2)).toLowerCase().replace(/[^a-z0-9-]/g,'');
-    var bytes=new Uint8Array(buf),n=Math.max(1,Math.ceil(bytes.length/PART)),parts=[],access='private';
-    for(var i=0;i<n;i++){
-      var chunk=bytes.subarray(i*PART,Math.min(bytes.length,(i+1)*PART)),res=null,lastErr=null;
-      for(var a=0;a<3&&!res;a++){
-        try{res=await api('/api/admin/upload-part?id='+id+'&i='+i,{method:'POST',admin:true,body:chunk,headers:{'Content-Type':'application/octet-stream'}});}
-        catch(e){lastErr=e;if(e.status===401)throw e;await new Promise(function(r){setTimeout(r,800*(a+1));});}
-      }
-      if(!res)throw lastErr||new Error('SERVER');
-      parts.push({pathname:res.pathname,size:res.size});access=res.access;
-      setStatus('busy','Publishing… '+Math.floor((i+1)/n*100)+'%','<span class="fname">'+esc(current.name)+'</span><br>Uploading part '+(i+1)+' of '+n+' · '+fmtSize(bytes.length)+' compressed');
-      setProgress((i+1)/n);
-    }
-    await api('/api/admin/publish',{method:'POST',admin:true,json:{id:id,parts:parts,access:access,fileName:current.name,stats:stats}});
+  function failLoad(name,text){
+    state='idle';current=null;lastQuery=null;
+    $('results').hidden=true;
+    $('uploadBtn').disabled=false;$('searchBtn').disabled=false;$('awbBtn').disabled=false;
+    setProgress(null);
+    setStatus('err',"File couldn't be loaded",(name?'<span class="fname">'+esc(name)+'</span><br>':'')+esc(text));
   }
 
-  /* ---- engine messages ---- */
-  var lastStats=null;
   function onMsg(m){
     if(!m)return;
     if(m.type==='progress'){
       if(state!=='loading')return;
       var d=m.detail||{},parts=[STAGE[m.stage]||'Processing'];
       if(d.sheet)parts.push('sheet “'+esc(d.sheet)+'”');
-      if(m.stage==='download'&&d.total)parts.push(fmtSize(d.bytes)+' of '+fmtSize(d.total));
-      else if(m.stage==='download'&&current&&current.size)parts.push(fmtSize(d.bytes)+' of '+fmtSize(current.size));
-      if(d.records!=null&&['rows','text','index'].indexOf(m.stage)>=0)parts.push('<span class="big-count">'+nf.format(d.records)+'</span> records');
-      var frac=m.frac;
-      if(m.stage==='download'&&(!d.total)&&current&&current.size)frac=d.bytes/current.size;
-      var pct=frac!=null&&frac>=0&&['open','headers','unpack','compress'].indexOf(m.stage)<0?Math.min(100,Math.floor(frac*100)):null;
-      var title=publishing?'Processing file…':'Loading base file…';
-      setStatus('busy',title+(pct!=null?' '+pct+'%':''),'<span class="fname">'+esc(current.name)+'</span>'+(current.size&&publishing?' · '+fmtSize(current.size):'')+'<br>'+parts.join(' · '));
-      setProgress(pct==null?-1:frac);
+      if(d.records!=null&&m.stage!=='open'&&m.stage!=='headers')parts.push('<span class="big-count">'+nf.format(d.records)+'</span> records read');
+      var pct=m.frac!=null&&m.stage!=='open'&&m.stage!=='headers'?Math.floor(m.frac*100):null;
+      setStatus('busy','Processing file…'+(pct!=null?' '+pct+'%':''),'<span class="fname">'+esc(current.name)+'</span> · '+fmtSize(current.size)+'<br>'+parts.join(' · '));
+      setProgress(pct==null?-1:m.frac);
       return;
     }
     if(m.type==='loaded'){
-      lastStats={records:m.records,exRecords:m.exRecords,cbRecords:m.cbRecords,comboAwbs:m.comboAwbs,comboSheet:m.comboSheet};
-      if(publishing){
-        setStatus('busy','Publishing…','<span class="fname">'+esc(current.name)+'</span><br>Preparing the base file for everyone');
-        setProgress(-1);
-        engine.send({type:'export'});
-        return;
-      }
-      state='ready';setBusyButtons(false);setProgress(null);
-      setStatus('ok','Base file loaded','<span class="fname">'+esc(current.name)+'</span><br><span class="big-count">'+nf.format(m.records)+'</span> records loaded successfully',baseMeta(cfg.dataset,m));
-      var q=$('q').value.trim(),aq=$('awbQ').value.trim();
-      if(lastKind==='awb'&&aq)runAwbSearch();else if(q)runSearch();
-      return;
-    }
-    if(m.type==='exported'){
-      uploadAndPublish(m.buf,lastStats).then(async function(){
-        publishing=null;state='ready';setBusyButtons(false);setProgress(null);
-        try{cfg=await api('/api/config',{admin:true});}catch(e){}
-        setStatus('ok','Base file published','<span class="fname">'+esc(current.name)+'</span><br><span class="big-count">'+nf.format(lastStats.records)+'</span> records are now live for everyone with the dashboard link',baseMeta(cfg.dataset,lastStats));
-        toast('Base file published');
-        var q=$('q').value.trim();if(q)runSearch();
-      },function(e){
-        publishing=null;state='idle';
-        failLoad(e&&e.code==='ADMIN_ONLY'?'Your admin session has expired. Log in again and re-upload the file.':(MSG[e&&e.code]||'Publishing failed. Check your connection and upload the file again.'));
-      });
+      state='ready';current.ready=true;current.records=m.records;
+      $('uploadBtn').disabled=false;$('searchBtn').disabled=false;$('awbBtn').disabled=false;
+      setProgress(null);
+      var meta=['<span>'+fmtSize(current.size)+'</span>','<span>Processed in '+fmtTime(m.ms)+'</span>'];
+      meta.push('<span>Exception Base: '+nf.format(m.exRecords)+'</span>');
+      meta.push('<span>Combo Base: '+(m.comboSheet?nf.format(m.cbRecords):'sheet not found, combos flagged from repeated AWBs')+'</span>');
+      meta.push('<span>Combo AWBs: '+nf.format(m.comboAwbs)+'</span>');
+      meta.push('<span>'+(engine&&engine.kind==='worker'?'Background processing':'In-page processing')+'</span>');
+      setStatus('ok','File uploaded successfully','<span class="fname">'+esc(current.name)+'</span><br><span class="big-count">'+nf.format(m.records)+'</span> records loaded successfully',meta.join(''));
+      $('uploadBtn').lastChild.nodeValue=' Upload Different File';
+      var q=$('q').value.trim();
+      if(q)runSearch();else $('q').focus();
       return;
     }
     if(m.type==='result'){renderResult(m);return;}
     if(m.type==='page'){renderPage(m);return;}
     if(m.type==='error'){
-      if(m.op==='load'||m.op==='loadRemote'||m.op==='export'){
+      if(m.op==='load'){
         var text=MSG[m.code]||MSG.PROCESS;
         if(m.code==='MISSING'&&m.extra){
           text='Required column'+(m.extra.missing.length>1?'s':'')+' missing: '+m.extra.missing.map(function(c){return '“'+c+'”';}).join(', ')+'.'+
                (m.extra.sheet?' Closest match was sheet “'+m.extra.sheet+'”.':'')+' Column headers must match the Exception Salvaging Base exactly.';
         }
-        if(m.code==='STALE'){toast(MSG.STALE);boot();return;}
-        if(m.code==='NO_FILE'&&m.op==='loadRemote'){boot();return;}
-        failLoad(text,m.op==='loadRemote');
+        failLoad(current?current.name:'',text);
       }else{
         $('searchBtn').disabled=false;$('awbBtn').disabled=false;
         showSearchAlert(MSG[m.code]||MSG.PROCESS);
@@ -1422,96 +1109,14 @@ function engineMain(ctx){
     }
   }
 
-  /* ---- admin session ---- */
-  function isAdmin(){return !!admin.token;}
-  function renderAdmin(){
-    var on=isAdmin();
-    $('adminZone').hidden=!on;
-    $('adminBtn').classList.toggle('on',on);
-    $('adminBtnText').textContent=on?'Admin · Log out':'Admin';
-    $('whoWrap').hidden=on;
-    $('baseHint').textContent=on?'You are signed in as admin':'Published centrally by the admin · loads automatically for everyone with the link';
-    if(pageRows.length)renderSalvageCells();
-  }
-  function logout(expired){
-    admin.token=null;sstore('esd_admin',null);renderAdmin();
-    if(expired)toast('Admin session ended. Log in again to make admin changes.',true);
-  }
-  $('adminBtn').addEventListener('click',function(){
-    if(isAdmin()){logout(false);toast('Logged out of admin');return;}
-    var c=$('loginCard');c.hidden=!c.hidden;$('loginAlert').hidden=true;
-    if(!c.hidden)setTimeout(function(){$('adminPw').focus();},30);
-  });
-  $('loginCancel').addEventListener('click',function(){$('loginCard').hidden=true;$('adminPw').value='';});
-  $('loginForm').addEventListener('submit',async function(e){
-    e.preventDefault();
-    var pw=$('adminPw').value,al=$('loginAlert');al.hidden=true;
-    if(!pw){al.textContent='Enter the admin password.';al.hidden=false;return;}
-    $('loginBtn').disabled=true;
-    try{
-      var r=await api('/api/admin/login',{method:'POST',json:{password:pw}});
-      admin.token=r.token;sstore('esd_admin',r.token);
-      $('adminPw').value='';$('loginCard').hidden=true;renderAdmin();toast('Signed in as admin');
-      if(!cfg.dataset&&state!=='loading')setStatus('','No base file published','Upload the Exception Salvaging Base above to publish it for everyone.',baseMeta(null));
-    }catch(err){
-      al.textContent=err.code==='WRONG_PASSWORD'?'Wrong password.':err.code==='TOO_MANY_ATTEMPTS'?'Too many wrong attempts. Try again in 15 minutes.':(MSG[err.code]||MSG.SERVER);
-      al.hidden=false;
-    }finally{$('loginBtn').disabled=false;}
-  });
-
-  /* ---- admin: remove base, downloads ---- */
-  $('removeBtn').addEventListener('click',function(){$('removeConfirm').hidden=false;$('removeBtn').hidden=true;});
-  $('removeNo').addEventListener('click',function(){$('removeConfirm').hidden=true;$('removeBtn').hidden=false;});
-  $('removeYes').addEventListener('click',async function(){
-    $('removeYes').disabled=true;
-    try{
-      await api('/api/admin/dataset',{method:'DELETE',admin:true});
-      $('removeConfirm').hidden=true;$('removeBtn').hidden=false;
-      if(engine&&engine.kind==='worker'){engine.kill();engine=null;}
-      state='idle';current=null;lastQuery=null;$('results').hidden=true;cfg.dataset=null;
-      setStatus('','No base file published','The base file was removed. Upload a new Exception Salvaging Base to publish it again.',baseMeta(null));
-      toast('Base file removed');
-    }catch(e){toast(MSG[e.code]||'The base file could not be removed. Try again.',true);}
-    finally{$('removeYes').disabled=false;}
-  });
-  function csvCell(v){
-    var s=String(v==null?'':v);
-    if(/^[=+@\t\r]/.test(s))s="'"+s;
-    return /[",\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
-  }
-  async function downloadRemarks(onlyYes,btn){
-    btn.disabled=true;var label=btn.textContent;btn.textContent='Preparing…';
-    try{
-      var all=[],cursor='0',guard=0;
-      do{var r=await api('/api/admin/export?cursor='+cursor,{admin:true});all=all.concat(r.records||[]);cursor=r.cursor;guard++;}while(!r.done&&guard<5000);
-      if(onlyYes)all=all.filter(function(x){return x.remark==='YES';});
-      all.sort(function(a,b){return String(b.at).localeCompare(String(a.at));});
-      var head=['AWB NUMBER','PRODUCT DESCRIPTION','PRODUCT CATEGORY','DC LIABILITY','AGEING','FILE TYPE','CENTRAL PENDENCY','CENTRAL BUCKET','FOUND IN','SALVAGING REMARKS','SALVAGED DC','UPDATED BY','UPDATED AT (IST)','FIRST SAVED BY'];
-      var lines=[head.join(',')];
-      all.forEach(function(x){lines.push([x.awb,x.desc,x.category,x.dcLiability,x.ageing,x.fileType,x.pendency,x.bucket,x.source,x.remark,x.dc,x.by,fmtDate(x.at),x.firstBy||''].map(csvCell).join(','));});
-      var blob=new Blob(['﻿'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'});
-      var d=new Date(),stamp=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-      var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(onlyYes?'Salvaged_Base_':'Salvaging_Remarks_All_')+stamp+'.csv';
-      document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},2000);
-      toast(nf.format(all.length)+' record'+(all.length===1?'':'s')+' downloaded');
-    }catch(e){toast(MSG[e.code]||'The download could not be prepared. Try again.',true);}
-    finally{btn.disabled=false;btn.textContent=label;}
-  }
-  $('dlYesBtn').addEventListener('click',function(){downloadRemarks(true,this);});
-  $('dlAllBtn').addEventListener('click',function(){downloadRemarks(false,this);});
-
   /* ---- search ---- */
   function mode(){return $('modeAny').checked?'any':'all';}
   function pageSize(){return parseInt($('pgSize').value,10)||100;}
-  function canSearch(){
-    if(state==='loading'){showSearchAlert(MSG.BUSY,true);return false;}
-    if(state!=='ready'){showSearchAlert(MSG.NO_FILE);return false;}
-    return true;
-  }
   function runSearch(){
     clearSearchAlert();
     var q=$('q').value.replace(/\s+/g,' ').trim();
-    if(!canSearch())return;
+    if(state==='loading'){showSearchAlert(MSG.BUSY,true);return;}
+    if(state!=='ready'){showSearchAlert(MSG.NO_FILE);return;}
     if(!q){showSearchAlert(MSG.EMPTY_QUERY);$('q').focus();return;}
     lastQuery=q;lastKind='desc';
     $('searchBtn').disabled=true;$('awbBtn').disabled=true;
@@ -1520,17 +1125,18 @@ function engineMain(ctx){
   function runAwbSearch(){
     clearSearchAlert();
     var q=$('awbQ').value.trim();
-    if(!canSearch())return;
+    if(state==='loading'){showSearchAlert(MSG.BUSY,true);return;}
+    if(state!=='ready'){showSearchAlert(MSG.NO_FILE);return;}
     if(!q){showSearchAlert(MSG.EMPTY_AWB);$('awbQ').focus();return;}
     lastQuery=q;lastKind='awb';
     $('searchBtn').disabled=true;$('awbBtn').disabled=true;
     engine.send({type:'awb',query:q,pageSize:pageSize()});
   }
   var COLS={
-    desc:{cols:['desc','cat','awb','dc','age','type','pend','bkt','rem','salv','sdc'],
-          head:['Product Description','Product Category','AWB Number','DC Liability','Ageing','File Type','Central Pendency','Central Bucket','Combo Remarks','Salvaging Remarks','Salvaged DC']},
-    awb:{cols:['awb','desc','cat','dc','age','type','pend','bkt','rem','salv','sdc'],
-          head:['AWB Number','Product Description','Product Category','DC Liability','Ageing','File Type','Central Pendency','Central Bucket','Combo Remarks','Salvaging Remarks','Salvaged DC']}
+    desc:{cols:['desc','cat','awb','dc','age','type','pend','bkt','rem'],
+          head:['Product Description','Product Category','AWB Number','DC Liability','Ageing','File Type','Central Pendency','Central Bucket','Combo Remarks']},
+    awb:{cols:['awb','desc','cat','dc','age','type','pend','bkt','rem'],
+          head:['AWB Number','Product Description','Product Category','DC Liability','Ageing','File Type','Central Pendency','Central Bucket','Combo Remarks']}
   };
   var shownKind=null;
   function setColumns(kind){
@@ -1561,7 +1167,7 @@ function engineMain(ctx){
     $('results').hidden=false;
     if(m.total===0){
       $('resTitle').innerHTML='No matching records found.';
-      $('noResults').hidden=false;$('tableArea').hidden=true;pageRows=[];
+      $('noResults').hidden=false;$('tableArea').hidden=true;
       $('noResHint').textContent=isAwb?'This AWB number is not in the Exception Base or the Combo Base. Check the number and try again.':m.mode==='all'&&m.keywords.length>1?'No description contains all of these keywords. Try fewer keywords, or switch Match to “Any keyword”.':'Check the spelling, or try a shorter part of the word.';
     }else{
       $('resTitle').innerHTML='Search Results: <span class="big-count">'+nf.format(m.total)+'</span> record'+(m.total===1?'':'s')+' found';
@@ -1582,20 +1188,17 @@ function engineMain(ctx){
   }
   function renderPage(m){
     view.page=m.page;view.pages=m.pages;
-    closeDcPop();
-    pageRows=m.rows.map(function(r){return {r:r,rec:undefined,edit:null,err:''};});
     var html=new Array(m.rows.length);
     for(var i=0;i<m.rows.length;i++){
       var r=m.rows[i],x=r[8];
       var descTd='<td class="desc">'+(r[0]===''?'<span class="blank">—</span>':highlight(r[0]))+'</td>';
-      html[i]='<tr data-i="'+i+'"'+(x.combo?' class="combo"':'')+'>'+
+      html[i]='<tr'+(x.combo?' class="combo"':'')+'>'+
         (shownKind==='awb'?cell(r[2],'awb lead')+descTd+cell(r[1],'cat'):descTd+cell(r[1],'cat')+cell(r[2],'awb'))+
         cell(r[3])+cell(r[4],'num')+
         '<td>'+(r[5]===''?'<span class="blank">—</span>':'<span class="pill">'+esc(r[5])+'</span>')+'</td>'+
         '<td>'+(r[6]===''?'<span class="blank">—</span>':'<span class="pend">'+esc(r[6])+'</span>')+'</td>'+
         '<td>'+(r[7]===''?'<span class="blank">—</span>':'<span class="bk bk'+hue(r[7])+'">'+esc(r[7])+'</span>')+'</td>'+
-        '<td>'+remarks(x)+'</td>'+
-        '<td class="salv"><span class="sv-loading">Checking…</span></td><td class="sdc"><span class="sv-loading">—</span></td></tr>';
+        '<td>'+remarks(x)+'</td></tr>';
     }
     $('tbody').innerHTML=html.join('');
     $('tableWrap').scrollTop=0;
@@ -1604,174 +1207,23 @@ function engineMain(ctx){
     $('pgNum').textContent='Page '+nf.format(m.page)+' of '+nf.format(m.pages);
     $('pgFirst').disabled=$('pgPrev').disabled=m.page<=1;
     $('pgNext').disabled=$('pgLast').disabled=m.page>=m.pages;
-    lookupSalvage();
   }
   function goPage(p){if(state!=='ready'||!lastQuery)return;engine.send({type:'page',page:p,pageSize:pageSize()});}
 
-  /* ---- salvaging remarks ---- */
-  var lookupSeq=0;
-  async function lookupSalvage(){
-    var seq=++lookupSeq,rows=pageRows;
-    if(!rows.length)return;
-    try{
-      var res=await api('/api/salvage',{method:'POST',json:{action:'lookup',keys:rows.map(function(p){return {awb:p.r[2],desc:p.r[0]};})}});
-      if(seq!==lookupSeq)return;
-      rows.forEach(function(p,i){p.rec=res.records[i]||null;});
-    }catch(e){
-      if(seq!==lookupSeq)return;
-      rows.forEach(function(p){p.rec=null;p.err='Could not check saved remarks';});
-    }
-    renderSalvageCells();
-  }
-  function lockSvg(){return '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';}
-  function rowEl(i){return $('tbody').querySelector('tr[data-i="'+i+'"]');}
-  function renderSalvageCells(){for(var i=0;i<pageRows.length;i++)renderSalvageRow(i);}
-  function renderSalvageRow(i){
-    var p=pageRows[i],tr=rowEl(i);if(!tr||p.rec===undefined)return;
-    var sv=tr.querySelector('td.salv'),sd=tr.querySelector('td.sdc');
-    tr.classList.toggle('saved',!!p.rec&&!p.edit);
-    if(p.rec&&!p.edit){
-      var yes=p.rec.remark==='YES';
-      sv.innerHTML='<div class="sv-stack"><span class="sv-badge '+(yes?'yes':'no')+'">'+lockSvg()+(yes?'Salvaged':'Not salvaged')+'</span>'+
-        '<span class="sv-meta">'+esc(p.rec.by||'')+' · '+esc(fmtDate(p.rec.at))+'</span>'+
-        (isAdmin()?'<span class="sv-admin"><button type="button" data-act="edit">Edit</button><button type="button" data-act="clear">'+(p.confirmClear?'Confirm clear':'Clear')+'</button></span>':'')+'</div>';
-      sd.innerHTML=yes&&p.rec.dc?'<span class="sv-dc">'+esc(p.rec.dc)+'</span>':'<span class="blank">—</span>';
-      return;
-    }
-    var e=p.edit||(p.edit={remark:'',dc:''});
-    var opts='<option value="">Select</option><option value="YES"'+(e.remark==='YES'?' selected':'')+'>YES</option><option value="NO"'+(e.remark==='NO'?' selected':'')+'>NO</option>';
-    var ready=e.remark==='NO'||(e.remark==='YES'&&cfg.dcs.indexOf(e.dc)>=0);
-    sv.innerHTML='<div class="sv-stack"><select class="sv-sel" data-act="remark" aria-label="Salvaging remark">'+opts+'</select>'+
-      (ready?'<button type="button" class="sv-save" data-act="save">'+lockSvg()+(p.rec?'Update':'Save &amp; lock')+'</button>':'')+
-      (p.rec?'<button type="button" class="sv-cancel" data-act="cancel">Cancel</button>':'')+
-      (p.err?'<span class="sv-err">'+esc(p.err)+'</span>':'')+'</div>';
-    sd.innerHTML='<input class="dc-input'+(e.remark==='YES'&&!ready?' need':'')+'" data-act="dc" type="text" placeholder="'+(e.remark==='YES'?'Search DC…':'Select YES first')+'" value="'+esc(e.dc||'')+'"'+(e.remark==='YES'?'':' disabled')+' aria-label="Salvaged DC" autocomplete="off" spellcheck="false">';
-  }
-  function rowPayload(p,e){
-    var r=p.r,x=r[8];
-    return {awb:r[2],desc:r[0],remark:e.remark,dc:e.remark==='YES'?e.dc:'',
-            row:{category:r[1],dcLiability:r[3],ageing:r[4],fileType:r[5],pendency:r[6],bucket:r[7],source:x.src}};
-  }
-  async function saveRow(i,btn){
-    var p=pageRows[i],e=p.edit;if(!e)return;
-    var name=$('userName').value.trim();
-    if(!isAdmin()&&name.length<2){
-      $('whoWrap').classList.add('need');$('userName').focus();
-      toast('Enter your name before saving a remark.',true);return;
-    }
-    if(e.remark==='YES'&&cfg.dcs.indexOf(e.dc)<0){toast('Choose the Salvaged DC from the list.',true);return;}
-    btn.disabled=true;p.err='';var had=!!p.rec;
-    try{
-      var body=rowPayload(p,e),res;
-      if(isAdmin()&&p.rec){res=await api('/api/admin/salvage',{method:'PUT',admin:true,json:body});}
-      else if(isAdmin()){body.action='save';body.by='Admin';res=await api('/api/salvage',{method:'POST',json:body});}
-      else{body.action='save';body.by=name;res=await api('/api/salvage',{method:'POST',json:body});}
-      p.rec=res.record;p.edit=null;if(!had)cfg.salvCount=(cfg.salvCount||0)+1;
-      toast(res.record.remark==='YES'?'Saved as salvaged at '+res.record.dc+' · locked':'Saved as not salvaged · locked');
-    }catch(err){
-      if(err.code==='LOCKED'&&err.data&&err.data.record){p.rec=err.data.record;p.edit=null;toast('Already saved by '+(p.rec.by||'another user')+'. The remark is locked.',true);}
-      else{p.err=err.code==='BAD_DC'?'Choose a DC from the list':err.code==='NAME_REQUIRED'?'Enter your name':(MSG[err.code]||'Not saved. Try again.');}
-    }
-    renderSalvageRow(i);
-  }
-  async function clearRow(i){
-    var p=pageRows[i];
-    if(!p.confirmClear){p.confirmClear=true;renderSalvageRow(i);setTimeout(function(){if(pageRows[i]===p&&p.confirmClear){p.confirmClear=false;renderSalvageRow(i);}},4000);return;}
-    p.confirmClear=false;
-    try{await api('/api/admin/salvage',{method:'DELETE',admin:true,json:{awb:p.r[2],desc:p.r[0]}});p.rec=null;p.edit=null;toast('Remark cleared. The line can be filled again.');}
-    catch(e){toast(MSG[e.code]||'Could not clear the remark.',true);}
-    renderSalvageRow(i);
-  }
-  $('tbody').addEventListener('change',function(ev){
-    var t=ev.target;if(!t.matches('select[data-act="remark"]'))return;
-    var i=+t.closest('tr').dataset.i,p=pageRows[i];if(!p)return;
-    p.edit=p.edit||{remark:'',dc:''};p.edit.remark=t.value;if(t.value!=='YES')p.edit.dc='';p.err='';
-    renderSalvageRow(i);
-    if(t.value==='YES'){var inp=rowEl(i).querySelector('.dc-input');if(inp)inp.focus();}
-  });
-  $('tbody').addEventListener('click',function(ev){
-    var b=ev.target.closest('[data-act]');if(!b)return;
-    var tr=b.closest('tr');if(!tr)return;var i=+tr.dataset.i,p=pageRows[i];if(!p)return;
-    var act=b.dataset.act;
-    if(act==='save')saveRow(i,b);
-    else if(act==='edit'){p.edit={remark:p.rec.remark,dc:p.rec.dc||''};renderSalvageRow(i);}
-    else if(act==='cancel'){p.edit=null;p.err='';renderSalvageRow(i);}
-    else if(act==='clear')clearRow(i);
-  });
-  $('userName').value=load('esd_name')||'';
-  $('userName').addEventListener('input',function(){store('esd_name',this.value.trim()||null);$('whoWrap').classList.remove('need');});
-
-  /* ---- searchable DC dropdown ---- */
-  var pop=$('dcPop'),popInput=null,popItems=[],popAct=-1;
-  function openDcPop(inp){popInput=inp;filterDc();}
-  function closeDcPop(){pop.hidden=true;popInput=null;popItems=[];popAct=-1;}
-  function filterDc(){
-    if(!popInput)return;
-    var q=popInput.value.trim().toLowerCase(),list=cfg.dcs||[];
-    popItems=q?list.filter(function(d){return d.toLowerCase().indexOf(q)>=0;}):list.slice();
-    popItems.sort(function(a,b){if(!q)return 0;var ai=a.toLowerCase().indexOf(q),bi=b.toLowerCase().indexOf(q);return ai-bi||a.localeCompare(b);});
-    popAct=popItems.length?0:-1;
-    pop.innerHTML=popItems.length?popItems.map(function(d,k){
-      var lo=d.toLowerCase().indexOf(q),label=q&&lo>=0?esc(d.slice(0,lo))+'<mark>'+esc(d.slice(lo,lo+q.length))+'</mark>'+esc(d.slice(lo+q.length)):esc(d);
-      return '<div class="dc-opt'+(k===popAct?' act':'')+'" role="option" data-k="'+k+'">'+label+'</div>';
-    }).join(''):'<div class="dc-none">No DC matches “'+esc(popInput.value.trim())+'”</div>';
-    placePop();pop.hidden=false;
-  }
-  function placePop(){
-    if(!popInput)return;
-    var r=popInput.getBoundingClientRect(),w=Math.max(r.width,220),left=Math.min(r.left,window.innerWidth-w-8);
-    pop.style.width=w+'px';pop.style.left=Math.max(8,left)+'px';
-    var below=window.innerHeight-r.bottom;
-    if(below<200&&r.top>below){pop.style.top='';pop.style.bottom=(window.innerHeight-r.top+4)+'px';}
-    else{pop.style.bottom='';pop.style.top=(r.bottom+4)+'px';}
-  }
-  function pickDc(d){
-    if(!popInput)return;
-    var tr=popInput.closest('tr'),i=+tr.dataset.i,p=pageRows[i];
-    closeDcPop();
-    if(p&&p.edit){p.edit.dc=d;p.err='';renderSalvageRow(i);var s=rowEl(i).querySelector('.sv-save');if(s)s.focus();}
-  }
-  function setAct(k){
-    var els=pop.querySelectorAll('.dc-opt');if(!els.length)return;
-    popAct=(k+els.length)%els.length;
-    els.forEach(function(el,j){el.classList.toggle('act',j===popAct);});
-    els[popAct].scrollIntoView({block:'nearest'});
-  }
-  $('tbody').addEventListener('focusin',function(ev){if(ev.target.matches('.dc-input'))openDcPop(ev.target);});
-  $('tbody').addEventListener('input',function(ev){
-    if(!ev.target.matches('.dc-input'))return;
-    var tr=ev.target.closest('tr'),p=pageRows[+tr.dataset.i];
-    if(p&&p.edit){p.edit.dc=ev.target.value;var ready=cfg.dcs.indexOf(p.edit.dc)>=0,btn=tr.querySelector('.sv-save');if(btn&&!ready)btn.remove();}
-    popInput=ev.target;filterDc();
-  });
-  $('tbody').addEventListener('keydown',function(ev){
-    if(!ev.target.matches('.dc-input'))return;
-    if(pop.hidden&&(ev.key==='ArrowDown'||ev.key==='Enter')){openDcPop(ev.target);ev.preventDefault();return;}
-    if(ev.key==='ArrowDown'){setAct(popAct+1);ev.preventDefault();}
-    else if(ev.key==='ArrowUp'){setAct(popAct-1);ev.preventDefault();}
-    else if(ev.key==='Enter'){if(popAct>=0&&popItems[popAct])pickDc(popItems[popAct]);ev.preventDefault();}
-    else if(ev.key==='Escape'){closeDcPop();}
-  });
-  pop.addEventListener('mousedown',function(ev){var o=ev.target.closest('.dc-opt');if(o){ev.preventDefault();pickDc(popItems[+o.dataset.k]);}});
-  document.addEventListener('mousedown',function(ev){if(!pop.hidden&&ev.target!==popInput&&!pop.contains(ev.target))closeDcPop();});
-  $('tableWrap').addEventListener('scroll',function(){if(!pop.hidden)placePop();},{passive:true});
-  window.addEventListener('scroll',function(){if(!pop.hidden)placePop();},{passive:true});
-  window.addEventListener('resize',function(){if(!pop.hidden)placePop();});
-
   /* ---- wiring ---- */
   $('uploadBtn').addEventListener('click',function(){$('fileInput').click();});
-  $('fileInput').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];e.target.value='';startPublish(f);});
+  $('fileInput').addEventListener('change',function(e){var f=e.target.files&&e.target.files[0];e.target.value='';startLoad(f);});
   var drop=$('drop');
   ['dragenter','dragover'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();if(state!=='loading')drop.classList.add('drag');});});
   ['dragleave','drop'].forEach(function(t){drop.addEventListener(t,function(e){e.preventDefault();drop.classList.remove('drag');});});
   drop.addEventListener('drop',function(e){
-    if(state==='loading'||!isAdmin())return;
+    if(state==='loading')return;
     var fl=e.dataTransfer&&e.dataTransfer.files;
-    if(fl&&fl.length)startPublish(fl[0]);
+    if(!fl||!fl.length){failLoad('',MSG.NO_FILE);return;}
+    startLoad(fl[0]);
   });
   window.addEventListener('dragover',function(e){e.preventDefault();});
   window.addEventListener('drop',function(e){e.preventDefault();});
-  $('retryBtn').addEventListener('click',function(){if(retryAction)retryAction();});
   $('searchForm').addEventListener('submit',function(e){e.preventDefault();runSearch();});
   $('awbForm').addEventListener('submit',function(e){e.preventDefault();runAwbSearch();});
   function syncModeHint(){$('modeHint').textContent=mode()==='any'?'“nike shoe” returns descriptions containing nike or shoe.':'“nike shoe” returns descriptions containing both nike and shoe.';}
@@ -1781,13 +1233,9 @@ function engineMain(ctx){
   $('pgPrev').addEventListener('click',function(){goPage(view.page-1);});
   $('pgNext').addEventListener('click',function(){goPage(view.page+1);});
   $('pgLast').addEventListener('click',function(){goPage(view.pages);});
-  window.addEventListener('error',function(e){if(e&&e.preventDefault)e.preventDefault();if(state==='loading')failLoad(MSG.PROCESS,!publishing);return true;});
+  window.addEventListener('error',function(e){if(e&&e.preventDefault)e.preventDefault();if(state==='loading')failLoad(current&&current.name,MSG.PROCESS);return true;});
   window.addEventListener('unhandledrejection',function(e){if(e&&e.preventDefault)e.preventDefault();});
   syncModeHint();
-  setColumns('desc');
-  admin.token=sload('esd_admin');
-  renderAdmin();
-  boot();
 })();
 </script>
 </body>
