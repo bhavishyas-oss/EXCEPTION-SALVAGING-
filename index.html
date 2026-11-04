@@ -225,7 +225,7 @@ tbody tr.combo td:first-child{box-shadow:inset 4px 0 0 var(--combo)}
       </div>
       <div class="drop-text">
         <strong>Drop the Exception Salvaging Base file here</strong>
-        <span>Sheet EXCEPTION BASE: awb_number, Product Description, Product Category, CENTAL PENDENCY, CENTRAL BUCKET, FILE TYPE, CENTRAL AGEING, DC Liability. Sheet COMBO BASE: awb_number, Product Description, product_categories, DC Liability</span>
+        <span>Sheet EXCEPTION BASE: awb_number, Product Description, Product Category, DC Liability, ageing (CENTRAL AGEING / MAX AGEING / AGEING), pendency (CENTRAL PENDENCY / PENDENCY TYPE / Loss Bucket Tagging), bucket (CENTRAL BUCKET / Central Pivot / Loss Bucket Sub Tagging), FILE TYPE optional. Other columns are ignored. Sheet COMBO BASE: awb_number, Product Description, product_categories, DC Liability</span>
       </div>
       <button class="btn btn-primary" id="uploadBtn" type="button">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m6 10 6-6 6 6"/></svg>
@@ -330,8 +330,12 @@ function engineMain(ctx){
   /* Slots: 0 desc, 1 category, 2 awb, 3 DC, 4 ageing, 5 file type, 6 central pendency, 7 central bucket.
      Each slot lists the accepted header names (first = name shown in errors). */
   var NS=8;
-  var EX_SPEC=[['Product Description'],['Product Category'],['awb_number','Awb_number'],['DC Liability','DC liability'],['CENTRAL AGEING','Central ageing'],['FILE TYPE','PENDENCY TYPE'],['CENTAL PENDENCY','CENTRAL PENDENCY'],['CENTRAL BUCKET']];
-  var EX_REQ=[1,1,1,1,1,1,1,1];
+  var EX_SPEC=[['Product Description'],['Product Category'],['awb_number'],['DC Liability'],
+    ['CENTRAL AGEING','MAX AGEING','AGEING'],
+    ['FILE TYPE'],
+    ['CENTRAL PENDENCY','CENTAL PENDENCY','PENDENCY TYPE','Loss Bucket Tagging'],
+    ['CENTRAL BUCKET','Central Pivot','Loss Bucket Sub Tagging']];
+  var EX_REQ=[1,1,1,1,1,0,1,1];
   var CB_SPEC=[['Product Description'],['product_categories','Product Category','product_category'],['awb_number','Awb_number'],['DC Liability','DC liability'],null,null,null,null];
   var CB_REQ=[1,0,1,1,0,0,0,0];
   var DEDUPE=[false,true,true,true,true,true,true,true];
@@ -522,9 +526,8 @@ function engineMain(ctx){
     for(var i=0;i<NS;i++){
       var names=spec[i],c;
       if(!names){cols.push(-1);continue;}
-      for(var j=0;j<names.length&&c===undefined;j++)c=exact.get(names[j]);
-      for(j=0;j<names.length&&c===undefined;j++)c=loose.get(hkey(names[j]));
-      if(c===undefined&&req[i])missing.push(names[0]);
+      for(var j=0;j<names.length&&c===undefined;j++){c=exact.get(names[j]);if(c===undefined)c=loose.get(hkey(names[j]));}
+      if(c===undefined&&req[i])missing.push(names.join(' / '));
       cols.push(c===undefined?-1:c);c=undefined;
     }
     return {cols:cols,missing:missing};
@@ -1099,7 +1102,7 @@ function engineMain(ctx){
         var text=MSG[m.code]||MSG.PROCESS;
         if(m.code==='MISSING'&&m.extra){
           text='Required column'+(m.extra.missing.length>1?'s':'')+' missing: '+m.extra.missing.map(function(c){return '“'+c+'”';}).join(', ')+'.'+
-               (m.extra.sheet?' Closest match was sheet “'+m.extra.sheet+'”.':'')+' Column headers must match the Exception Salvaging Base exactly.';
+               (m.extra.sheet?' Closest match was sheet “'+m.extra.sheet+'”.':'')+' Any one of the names separated by “/” is accepted; capital letters do not matter.';
         }
         failLoad(current?current.name:'',text);
       }else{
@@ -1195,7 +1198,7 @@ function engineMain(ctx){
       html[i]='<tr'+(x.combo?' class="combo"':'')+'>'+
         (shownKind==='awb'?cell(r[2],'awb lead')+descTd+cell(r[1],'cat'):descTd+cell(r[1],'cat')+cell(r[2],'awb'))+
         cell(r[3])+cell(r[4],'num')+
-        '<td>'+(r[5]===''?'<span class="blank">—</span>':'<span class="pill">'+esc(r[5])+'</span>')+'</td>'+
+        '<td>'+(r[5]===''?'':'<span class="pill">'+esc(r[5])+'</span>')+'</td>'+
         '<td>'+(r[6]===''?'<span class="blank">—</span>':'<span class="pend">'+esc(r[6])+'</span>')+'</td>'+
         '<td>'+(r[7]===''?'<span class="blank">—</span>':'<span class="bk bk'+hue(r[7])+'">'+esc(r[7])+'</span>')+'</td>'+
         '<td>'+remarks(x)+'</td></tr>';
