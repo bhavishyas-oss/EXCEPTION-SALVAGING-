@@ -518,7 +518,8 @@ function engineMain(ctx){
   }
 
   /* ---------- header matching ---------- */
-  function hkey(s){return s.replace(/\s+/g,' ').trim().toLowerCase();}
+  /* Header comparison ignores capitals and treats _ - . and repeated spaces as one space (max_ageing = MAX AGEING). */
+  function hkey(s){return String(s).replace(/[\s_\-.]+/g,' ').trim().toLowerCase();}
   function mapHeaders(cells,spec,req){
     var exact=new Map(),loose=new Map();
     cells.forEach(function(c){var t=(c.text||'').trim();if(!t)return;if(!exact.has(t))exact.set(t,c.col);var k=hkey(t);if(!loose.has(k))loose.set(k,c.col);});
@@ -1102,7 +1103,7 @@ function engineMain(ctx){
         var text=MSG[m.code]||MSG.PROCESS;
         if(m.code==='MISSING'&&m.extra){
           text='Required column'+(m.extra.missing.length>1?'s':'')+' missing: '+m.extra.missing.map(function(c){return '“'+c+'”';}).join(', ')+'.'+
-               (m.extra.sheet?' Closest match was sheet “'+m.extra.sheet+'”.':'')+' Any one of the names separated by “/” is accepted; capital letters do not matter.';
+               (m.extra.sheet?' Closest match was sheet “'+m.extra.sheet+'”.':'')+' Any one of the names separated by “/” is accepted; capital letters, underscores and extra spaces do not matter.';
         }
         failLoad(current?current.name:'',text);
       }else{
